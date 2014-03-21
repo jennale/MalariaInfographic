@@ -13,8 +13,7 @@ $(window).scroll(function() {
 	var getVert = $(this).scrollTop();
 });
 
-
-	initPart0();
+/* 	initPart0(); */
 	initPart1();		
 
 
@@ -39,10 +38,10 @@ function initPart0(){
 	
 	controller = new ScrollMagic({loglevel: 3});
 	
-	scene1 = new ScrollScene({duration: 100}).setTween(tween1);
-	scene2 = new ScrollScene({duration: 400}).setTween(tween2);
-	scene3 = new ScrollScene({duration: 400}).setTween(tween3);
-	pin = new ScrollScene({duration: 500}).setPin("#part0");
+	scene1 = new ScrollScene({duration: 500}).setTween(tween1);
+	scene2 = new ScrollScene({duration: 700}).setTween(tween2);
+	scene3 = new ScrollScene({duration: 700}).setTween(tween3);
+	pin = new ScrollScene({duration: 1000}).setPin("#part0");
 	
 	controller.addScene([scene1,scene2,scene3,pin]);
 	
@@ -64,29 +63,74 @@ function loopClouds(){
 function initPart1(){
 	var pin, tween1,tween2,tween3,text4,text5;
 	pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
+	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+100,duration: 250});
 	pin.addIndicators();
-
-	controller2 = new ScrollMagic({loglevel: 3});
-	controller2.addScene(pin);
-	bloodFlow1()
+	pin.on("start",function(event){
+		plasmodium();
+	});
+	
+	controller = new ScrollMagic({loglevel: 3});
+	controller.addScene([pin]);
+	bloodFlow1();
 	bloodFlow2();
 }
 
 function bloodFlow1(){
 	var blood1 = $("#part1-blood");
-	
 	blood1.css("left",(hori.toString()+"px"));	
-	
-	TweenLite.from(blood1,15,{left:"-400px",ease:Linear.easeNone,onComplete:bloodFlow1});
+	TweenLite.from(blood1,10,{left:"-400px",ease:Linear.easeNone,onComplete:bloodFlow1});
 }
 
 function bloodFlow2(){
 	var blood2 = $("#part1-bloodinf");
 	blood2.css("left",(hori.toString()+"px"));	
-	TweenLite.from(blood2,20,{left:"-200px",onComplete:bloodFlow2,ease:Linear.easeNone});
-	
-	
+	TweenLite.from(blood2,15,{left:"-200px",onComplete:bloodFlow2,ease:Linear.easeNone});
 }
+
+function plasmodium(){
+	var container = $("#part1-particles");
+	var particles = container.children();
+	var particlesActions = new Array();
+	var height = container.height();
+	var width  = container.width();
+	var flowL = $("#part1-flowL");
+	var flowR = $("#part1-flowR");
+	container.removeAttr("style");
+	$(".flow").css("opacity","0");
+	$(".germs").removeAttr("style");
+	
+	TweenLite.to($(".flow"),1,{opacity:"1"});
+	TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});
+	TweenLite.from(flowR,1,{rotation: 90, top: "-200px", right: "-50px",ease:Linear.easeNone});
+
+	for (var i = 0; i < particles.length; i++){
+    	TweenLite.to(particles[i], 4, {x:randomNumber(0-width*2,width*2), y:randomNumber(height, height*2),rotation: randomNumber(-180, 180), delay:0.8 }),0;
+    }
+    
+    TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
+    TweenLite.to($(".flow"),2,{opacity:"0",delay:10});
+
+	 function randomNumber(min, max) {
+	    return Math.floor(Math.random() * (1 + max - min) + min);
+	}
+}
+/*
+	var width:Number = 400;
+var height:Number = 300;
+
+function tweenFish():void {
+    TweenLite.to(fish, 2, {x:randomNumber(0, width), y:randomNumber(0, height), onComplete:tweenFish});
+}
+tweenFish();
+
+
+function randomNumber(min:Number, max:Number):Number {
+    return Math.floor(Math.random() * (1 + max - min) + min);
+}
+*/
+
+
+
 /*
 // init controller
 var controller = new ScrollMagic();
