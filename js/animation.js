@@ -111,8 +111,10 @@ function plasmodium(){
 	$(".flow").removeAttr("style");
 	
 	TweenLite.to($(".flow"),1,{opacity:"1"});
-	TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});
-	TweenLite.from(flowR,1,{rotation: 90, top: "-200px", right: "-50px",ease:Linear.easeNone});
+	var tween=TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});
+	var tween2=TweenLite.from(flowR,1,{rotation: 90, top: "-200px", right: "-50px",ease:Linear.easeNone});
+    TweenLite.to($("#part1-flow"),2,{opacity:"0",delay:10});
+	
 
 	//Export particles in random movement burst
 	for (var i = 0; i < particles.length; i++){
@@ -121,7 +123,6 @@ function plasmodium(){
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
-    TweenLite.to($(".flow"),2,{opacity:"0",delay:10});
 
 	 function rand(min, max) {
 	    return Math.floor(Math.random() * (1 + max - min) + min);
