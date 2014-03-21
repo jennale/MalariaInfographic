@@ -98,6 +98,7 @@ function plasmodium(){
 	container.removeAttr("style");
 	$(".flow").css("opacity","0");
 	$(".germs").removeAttr("style");
+	$(".flow").removeAttr("style");
 	
 	TweenLite.to($(".flow"),1,{opacity:"1"});
 	TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});

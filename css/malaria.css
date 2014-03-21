@@ -52,17 +52,26 @@ h1 {
 	background-color: #a5ccd3;
 }
 
+#instructions {
+	position:absolute;
+	color:#787878;
+	margin: 0 auto;
+	left: 0px;
+	right: 0px;
+	text-align: center;
+	top: 10%;
+}
+
 #banner {
 	position:relative;
 	display: block;
 	margin: 0 auto;
 	z-index: 1;
-	padding-top: 10%;
+	top: 10%;
 	rotationY:0deg;
 	opacity:1;
     transform-style: preserve-3d;
 	transition: transform 1s;
-	
 }
 
 #banner.rotate {
@@ -94,6 +103,9 @@ h1 {
 	left:-200px;
 	z-index: 0;
 
+}
+#part0 .mid {
+	margin-top: 100px;
 }
 
 #part0-mosn{
