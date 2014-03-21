@@ -13,7 +13,7 @@ $(window).scroll(function() {
 	var getVert = $(this).scrollTop();
 });
 
-/* 	initPart0(); */
+	initPart0();
 	initPart1();		
 
 
