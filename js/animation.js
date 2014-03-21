@@ -29,6 +29,8 @@ function initPart0(){
 	line = $("#part0 .mid:first");
 	line2 = line.next();		
 	
+	var instructions = TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});
+	
 	//Banner image
 	tween1 = TweenLite.from(banner,1.5,{transform:"rotateY",opacity:"0",delay:1});
 	//Mosquito drinking
@@ -37,12 +39,20 @@ function initPart0(){
 	tween3 = TweenMax.staggerFrom([line,line2],3,{opacity:"0",delay: 2},1);
 	
 	controller = new ScrollMagic({loglevel: 3});
+
 	
 	scene1 = new ScrollScene({duration: 500}).setTween(tween1);
 	scene2 = new ScrollScene({duration: 700}).setTween(tween2);
 	scene3 = new ScrollScene({duration: 700}).setTween(tween3);
 	pin = new ScrollScene({duration: 1000}).setPin("#part0");
-	
+		
+	scene1.on("start",function(event){
+		instructions.pause();
+	});
+	scene1.on("leave",function(event){
+		instructions.play();
+	});	
+
 	controller.addScene([scene1,scene2,scene3,pin]);
 	
 	loopClouds();
