@@ -27,23 +27,23 @@ function initPart0(){
 	var banner, clouds1, clouds2, line, line2, tween1, tween2, tween3, scene1, scene2, scene3, controller;
 	banner = $("#banner");		
 	line = $("#part0 .mid:first");
-	line2 = line.next();		
+	line2 = line.next();	
 	
 	var instructions = TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});
 	
 	//Banner image
-	tween1 = TweenLite.from(banner,1.5,{transform:"rotateY",opacity:"0",delay:1});
-	//Mosquito drinking
-	tween2 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});
+	tween1 = TweenLite.from(banner,1.5,{transform:"rotateY",opacity:"0"});
 	//Lines of text
-	tween3 = TweenMax.staggerFrom([line,line2],3,{opacity:"0",delay: 2},1);
+	tween2 = TweenMax.staggerFrom([line,line2],3,{opacity:"0", delay: 0},1);
+	//Mosquito drinking
+	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
 	
 	controller = new ScrollMagic({loglevel: 3});
 
 	
-	scene1 = new ScrollScene({duration: 500}).setTween(tween1);
-	scene2 = new ScrollScene({duration: 700}).setTween(tween2);
-	scene3 = new ScrollScene({duration: 700}).setTween(tween3);
+	scene1 = new ScrollScene({offset:"100",duration: 150}).setTween(tween1);
+	scene2 = new ScrollScene({offset:"250",duration: 200}).setTween(tween2);
+	scene3 = new ScrollScene({offset:"250",duration: 400}).setTween(tween3);
 	pin = new ScrollScene({duration: 1000}).setPin("#part0");
 		
 	scene1.on("start",function(event){
@@ -106,7 +106,7 @@ function plasmodium(){
 	var flowL = $("#part1-flowL");
 	var flowR = $("#part1-flowR");
 	container.removeAttr("style");
-	$(".flow").css("opacity","0");
+	$(".flow").css("opacity","0","-webkit-transform","");
 	$(".germs").removeAttr("style");
 	$(".flow").removeAttr("style");
 	
@@ -114,14 +114,16 @@ function plasmodium(){
 	TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});
 	TweenLite.from(flowR,1,{rotation: 90, top: "-200px", right: "-50px",ease:Linear.easeNone});
 
+	//Export particles in random movement burst
 	for (var i = 0; i < particles.length; i++){
-    	TweenLite.to(particles[i], 4, {x:randomNumber(0-width*2,width*2), y:randomNumber(height, height*2),rotation: randomNumber(-180, 180), delay:0.8 }),0;
+    	TweenLite.to(particles[i], 4, {x:rand(0-width*2,width*2), y:rand(height, height*3), rotation:rand(-180, 180), delay:0.8 }),0;
     }
-    
+    //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
+    //Flow/movement lines disappear
     TweenLite.to($(".flow"),2,{opacity:"0",delay:10});
 
-	 function randomNumber(min, max) {
+	 function rand(min, max) {
 	    return Math.floor(Math.random() * (1 + max - min) + min);
 	}
 }
