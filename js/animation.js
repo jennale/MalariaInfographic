@@ -43,7 +43,7 @@ function initPart0(){
 	
 	scene1 = new ScrollScene({offset:"100",duration: 150}).setTween(tween1);
 	scene2 = new ScrollScene({offset:"250",duration: 200}).setTween(tween2);
-	scene3 = new ScrollScene({offset:"250",duration: 400}).setTween(tween3);
+	scene3 = new ScrollScene({offset:"200",duration: 700}).setTween(tween3);
 	pin = new ScrollScene({duration: 1000}).setPin("#part0");
 		
 	scene1.on("start",function(event){
@@ -71,16 +71,23 @@ function loopClouds(){
 /*-----------------------*/
 
 function initPart1(){
-	var pin, tween1,tween2,tween3,text4,text5;
+	var pin,text1,text2,tween1,tween2,scene1,scene2;
+	text1 = $("#part1-text1");
+	text2 = $("#part1-text2");
 	pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
-	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+100,duration: 250});
 	pin.addIndicators();
 	pin.on("start",function(event){
 		plasmodium();
 	});
 	
+	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20"});
+	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
+	
+	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+200,duration:200}).setTween(tween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:200}).setTween(tween2);
+		
 	controller = new ScrollMagic({loglevel: 3});
-	controller.addScene([pin]);
+	controller.addScene([pin,scene1,scene2]);
 	bloodFlow1();
 	bloodFlow2();
 }
@@ -128,6 +135,15 @@ function plasmodium(){
 	    return Math.floor(Math.random() * (1 + max - min) + min);
 	}
 }
+
+
+/*-----------------------*/
+/* -- PART 2 ANIMATES -- */
+/*-----------------------*/
+
+
+
+
 /*
 	var width:Number = 400;
 var height:Number = 300;
