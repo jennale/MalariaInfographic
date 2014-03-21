@@ -26,7 +26,7 @@ $(window).scroll(function() {
 function initPart0(){
 	var banner, clouds1, clouds2, line, line2, tween1, tween2, tween3, scene1, scene2, scene3, controller;
 	banner = $("#banner");		
-	line = $("#part0 .mid:first");
+	line = $("#banner .mid:first");
 	line2 = line.next();	
 	
 	var instructions = TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});
