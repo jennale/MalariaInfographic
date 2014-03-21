@@ -61,8 +61,8 @@ function initPart0(){
 function loopClouds(){
 	var clouds1 = $("#clouds1");
 	var clouds2 = $("#clouds2");
-	TweenMax.to(clouds2,60,{left:"100px",repeat:-1,yoyo:true,ease:Linear.easeNone});
-	TweenMax.to(clouds1,50,{css:{left:"600px"},repeat:-1,yoyo:true,ease:Linear.easeNone});
+	TweenMax.to(clouds2,60,{left:vert,repeat:-1,yoyo:true,ease:Linear.easeNone});
+	TweenMax.to(clouds1,50,{css:{left:vert},repeat:-1,yoyo:true,ease:Linear.easeNone});
 }
 
 
@@ -83,8 +83,8 @@ function initPart1(){
 	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20"});
 	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
 	
-	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+200,duration:200}).setTween(tween1);
-	scene2 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:200}).setTween(tween2);
+	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+200,duration:0}).setTween(tween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:0}).setTween(tween2);
 		
 	controller = new ScrollMagic({loglevel: 3});
 	controller.addScene([pin,scene1,scene2]);
