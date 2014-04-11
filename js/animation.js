@@ -2,19 +2,23 @@ var hori = $(window).width();
 var vert = $(window).height();
 
 $(window).load(function(){
-/* 	$(".loader").fadeOut("slow"); */
+/* 	$(".loader").fadeOut("slow"); */ //Add a loading image to run while all images/etc are being created
 $(".part").css("height",vert);
 });
 
 $(document).ready(function(){
 
 $(window).scroll(function() { 
+	//Makes the section sizes the exact size of the user's window.
 	var getHor = $(this).scrollLeft();
 	var getVert = $(this).scrollTop();
 });
 
-	initPart0();
-	initPart1();		
+//Simple initialization of all parts.
+	initPart0(); //Malaria: Introduction
+	initPart1(); //What is Malaria?
+	initPart2(); //Malaria: Global Statistics and other Info
+				 //Prevention techniques 
 
 
 });
@@ -141,8 +145,56 @@ function plasmodium(){
 /* -- PART 2 ANIMATES -- */
 /*-----------------------*/
 
+function initPart2(){
+	makeMap();
+}
 
 
+	function makeMap(){
+        $('#world-map').vectorMap({
+          map: 'world_mill_en', //Dealing with the world map
+          backgroundColor:'white', //Set background
+          regionStyle: {
+						  initial: {
+						    fill: '#4c4c4c'
+						  },
+						  hover: {
+						    "fill-opacity": 0.8
+						  },
+						  selected: {
+						    fill: 'yellow'
+						  },
+						  selectedHover: {
+						  }
+						},
+          
+          series: {				//Data visualization series
+            regions: [{
+              values: casesData,//Array variable to take data from
+              scale: ['#ffb9b2', '#9a0000'],	//Color scale
+              normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
+            }]
+          },
+          //Edit hover label format: Country \n Cases: ##
+          onRegionLabelShow: function(e, el, code){
+            el.html(el.html()+'<br/>Cases: '+formatNumber(casesData[code]));
+          }
+        });
+        
+        //Function is used to add commas to the formated number string (for Readability)
+		function formatNumber(nStr)
+		{
+			nStr += '';
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+			}
+			return x1 + x2;
+		}
+      };
 
 /*
 	var width:Number = 400;

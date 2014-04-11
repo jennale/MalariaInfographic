@@ -1,9 +1,0 @@
-	var line = $("#part0 .mid:first");
-	var line2 = line.css("opacity","0").next();
-	line2.css("opacity","0");
-	var tween = TweenMax.staggerTo([line,line2],3,{opacity:"1",delay: 2},1);
-	var controller = new ScrollMagic({loglevel: 3});
-	var controller2 = new ScrollMagic({loglevel: 3});
-	var scene = new ScrollScene({triggerElement: "trigger1", duration: 700,loglevel: 3})
-				.setPin("#part0").setTween(tween)
-				.addTo(controller);

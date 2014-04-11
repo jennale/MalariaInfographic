@@ -225,18 +225,19 @@ h1 {
 	bottom: 10%;
 }
 
+		/*-----------------------*/
+		/* --- PART 1 STYLES --- */
+		/*-----------------------*/
 
+#world-map {
+	position:relative;
+	margin: 0 auto;
+	width: 600px;
+	height:400px;
+/* 	border: 1px solid black; */
+	box-shadow: #545454 1px 1px 7px black
 
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
