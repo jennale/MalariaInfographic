@@ -15,8 +15,8 @@ $(window).scroll(function() {
 });
 
 //Simple initialization of all parts.
-	initPart0(); //Malaria: Introduction
-	initPart1(); //What is Malaria?
+/* 	initPart0(); //Malaria: Introduction */
+/* 	initPart1(); //What is Malaria? */
 	initPart2(); //Malaria: Global Statistics and other Info
 				 //Prevention techniques 
 
@@ -24,7 +24,7 @@ $(window).scroll(function() {
 });
 
 /*-----------------------*/
-/* -- PART 0 ANIMATES -- */
+/* -- PART0 ANIMATION -- */
 /*-----------------------*/
 
 function initPart0(){
@@ -43,7 +43,6 @@ function initPart0(){
 	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
 	
 	controller = new ScrollMagic({loglevel: 3});
-
 	
 	scene1 = new ScrollScene({offset:"100",duration: 150}).setTween(tween1);
 	scene2 = new ScrollScene({offset:"250",duration: 200}).setTween(tween2);
@@ -58,7 +57,8 @@ function initPart0(){
 	});	
 
 	controller.addScene([scene1,scene2,scene3,pin]);
-	
+
+	wingFlap();
 	loopClouds();
 }
 	
@@ -69,9 +69,16 @@ function loopClouds(){
 	TweenMax.to(clouds1,50,{css:{left:vert},repeat:-1,yoyo:true,ease:Linear.easeNone});
 }
 
+function wingFlap(){
+	var wings = $("#part0-wing");
+	wings.css("opacity","1");
+	TweenMax.to($("#part0-wing"),0.1,{opacity:"0",repeat:2,delay:rand(3,5),onComplete:wingFlap});
+
+}
+
 
 /*-----------------------*/
-/* -- PART 1 ANIMATES -- */
+/* -- PART1 ANIMATION -- */
 /*-----------------------*/
 
 function initPart1(){
@@ -134,68 +141,116 @@ function plasmodium(){
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
+}
 
-	 function rand(min, max) {
-	    return Math.floor(Math.random() * (1 + max - min) + min);
-	}
+function rand(min, max) {
+	return Math.floor(Math.random() * (1 + max - min) + min);
 }
 
 
 /*-----------------------*/
-/* -- PART 2 ANIMATES -- */
+/* -- PART2 ANIMATION -- */
 /*-----------------------*/
 
 function initPart2(){
+	var pin,text1,text2,tween1,tween2,scene1,scene2;
+
+/*
+	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1000}).setPin("#part2");
+	pin.addIndicators();
+	
+	controller = new ScrollMagic({loglevel: 3});
+	controller.addScene([pin]);
+*/
+/* 	TweenLite.to($("#net"),10,({y:-1300})); */
 	makeMap();
 }
 
 
-	function makeMap(){
-        $('#world-map').vectorMap({
-          map: 'world_mill_en', //Dealing with the world map
-          backgroundColor:'white', //Set background
-          regionStyle: {
-						  initial: {
-						    fill: '#4c4c4c'
-						  },
-						  hover: {
-						    "fill-opacity": 0.8
-						  },
-						  selected: {
-						    fill: 'yellow'
-						  },
-						  selectedHover: {
-						  }
-						},
-          
-          series: {				//Data visualization series
-            regions: [{
-              values: casesData,//Array variable to take data from
-              scale: ['#ffb9b2', '#9a0000'],	//Color scale
-              normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
-            }]
-          },
-          //Edit hover label format: Country \n Cases: ##
-          onRegionLabelShow: function(e, el, code){
-            el.html(el.html()+'<br/>Cases: '+formatNumber(casesData[code]));
-          }
-        });
-        
-        //Function is used to add commas to the formated number string (for Readability)
-		function formatNumber(nStr)
-		{
-			nStr += '';
-			x = nStr.split('.');
-			x1 = x[0];
-			x2 = x.length > 1 ? '.' + x[1] : '';
-			var rgx = /(\d+)(\d{3})/;
-			while (rgx.test(x1)) {
-				x1 = x1.replace(rgx, '$1' + ',' + '$2');
-			}
-			return x1 + x2;
+function makeMap(){
+$('#world-map').vectorMap({
+  map: 'world_mill_en', //Dealing with the world map
+  backgroundColor:'white', //Set background
+  zoomOnScroll: false,
+  regionsSelectable: true,
+  regionsSelectableOne: true,
+  regionStyle: {
+				  initial: {
+				    fill: '#4c4c4c'
+				  },
+				  hover: {
+				    /* "fill-opacity": 0.8 */
+				    fill: '#5c5c5c'
+				  },
+				  selected: {
+				    fill: 'yellow'
+				  },
+				  selectedHover: {
+				  }
+				},
+  
+  series: {				//Data visualization series
+    regions: [{
+      values: casesData,//Array variable to take data from
+      scale: ['#ffb9b2', '#9a0000'],	//Color scale
+      normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
+    }]
+  },
+  //Edit hover label format: Country \n Cases: ##
+  onRegionLabelShow: function(evt, lbl, countryCode){
+    lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
+  },
+  onRegionSelected: function(e, code, isSelected, selectedRegions){
+	  makeGraph(itnData2012[code]);
+/* 	  alert(itnData2012[code]); */
+  }
+});
+   
+   $("#world-map").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+//Function is used to add commas to the formated number string (for Readability)
+	function formatNumber(nStr)
+	{
+		nStr += '';
+		x = nStr.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
 		}
-      };
+		return x1 + x2;
+		}
+};
 
+function countUp(num){
+	
+}
+
+
+
+function makeGraph(numero){
+	var one, two, three;
+	one = numero;
+	two = 100-numero;
+	
+	var data = [
+    ['Population potentially protected by ITNs', one],['Unprotected', two]
+  ];
+  var plot1 = jQuery.jqplot ('chart1', [data], 
+    { 
+      seriesDefaults: {
+        // Make this a pie chart.
+        renderer: jQuery.jqplot.PieRenderer, 
+        rendererOptions: {
+          // Put data labels on the pie slices.
+          // By default, labels show the percentage of the slice.
+          showDataLabels: true
+        }
+      }, 
+      legend: { show:true, location: 'e' }
+    }
+  );
+}
 /*
 	var width:Number = 400;
 var height:Number = 300;

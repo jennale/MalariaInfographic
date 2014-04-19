@@ -10,31 +10,55 @@
 	
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/TweenMax.min.js"></script>
-    <script src="js/jquery.scrollmagic.js"></script>
+    <script src="js/jquery.scrollmagic.min.js"></script>
 	<script src="js/jquery.scrollmagic.debug.js"></script>
 	<script src="js/animation.js"></script>
+	
+	<link href='http://fonts.googleapis.com/css?family=Sniglet' rel='stylesheet' type='text/css'>
 	
 	<link rel="stylesheet" href="./css/jquery-jvectormap-1.2.2.css" type="text/css" media="screen"/>
     <script src="js/jquery-jvectormap-1.2.2.min.js"></script>
 	<script src="js/jquery-jvectormap-world-mill-en.js"></script>
 	<script src="js/casesData.js"></script>	
+		
+	
+	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="js/jqplot.pieRenderer.min.js"></script>
+	<script type="text/javascript" src="js/jqplot.donutRenderer.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/jquery.jqplot.min.css" />
+	<script src="js/itnData2012.js"></script>	
 
+	
   </head>
   
   <body>
   <div class="loader"></div>
+  <div id="nav">
+	  <ul>
+	  	<li>Start</li>
+	  	<li>What is Malaria?</li>
+	  	<li>Who does it effect?</li>
+	  	<li>Prevention</li>
+	  	<li>Future Goals</li>
+	  </ul>
+  </div>
   
 <!--   BEGIN PART 0 -->
   	<div class="part" id="part0"> 
   		<div id="instructions"><h3>Scroll slowly to progress</h3><img src="./images/arrow.png" width="30px" height="auto"/></div>
 	  	<div id="banner"><img src="./images/banner.png"/>
-	  	<h1 class="mid" style="margin-top: 100px;">Over <b>half</b> the world's population lives under the threat of <b>Malaria</b></h1>
-	  	<h2 class="mid">Each year, hundreds of thousands die from this deadly, yet <b>preventable</b> illness.</h2>
+	  	<div id="part0-info"><img id="part0-globe" src="./images/world-pie.gif"/>
+			<h1 class="mid" style="margin-top: 100px;">Over <b>half</b> the world's population lives under the threat of <b>Malaria</b></h1>
+		  	<h2 class="mid">Each year, hundreds of thousands die from this deadly, yet <b>preventable</b> illness.</h2>		  	
+	  	</div>
+
 	  	</div>
 	  	<div id="clouds1"></div>
 	  	<img id="clouds2" src="./images/clouds.png"/>
 
 	  	<div id="part0-bottom">
+	  		<img class="mosq" id="part0-wing" src="./images/wings.png"/>
 		  	<img class="mosq" id="part0-mosr" src="./images/mos_red.png"/>
 		  	<img class="mosq" id="part0-mosf" src="./images/mos_fly.png"/>	  		  	
 		  	<img class="mosq" id="part0-mosn" src="./images/mos_norm.png"/>
@@ -65,7 +89,7 @@
 	  		<h3> Malaria is known as a <b>vector-borne</b> illness. The infected mosquito's saliva carries a parasite of the genus <b>Plasmodium</b>, which enters the bloodstream by a mosquito bite.</h3>
   		</div>
   		<div class="textbox "id="part1-text2">
-	  		<h3>If infected, initial symptoms will appear 7-15 days after the bite, and include: 
+	  		<h3>If infected, initial symptoms will appear <b>7-15</b> days after the bite, and include: 
 		  		<ul>
 			  		<li>fever </li>
 			  		<li>headache</li>
@@ -73,7 +97,10 @@
 			  		<li>vomiting</li>
 		  		</ul>
 		  	</h3>
-  		</div>  		
+  		</div>
+  		<div class="textbox" id="part1-text3">
+  		<h3> Malaria can infect anyone, however <b>children and pregnant women</b> are the most susceptible to the lethal concerns of the disease.
+  		</div>
   		<div id="part1-bottom"></div>  		
   	</div>
   	<div id="trigger2" class="spacer s0"></div>
@@ -81,11 +108,31 @@
 
 <!-- 	BEGIN PART 2 -->  	
   	<div class="part" id="part2">
-  	  <div id="world-map"></div>
+		  	
+	  	<div id="part2-info">
+			<h1 class="title" id="part2-title">But where does it infect? </h1>
+		  	Malaria is endemic to 97 countries worldwide.
+		  	Generally in the tropical and subtropic regions of the world, where mosquitoes can thrive.
+		  	But 90% of deaths occur in sub-Saharan Africa.
+		  	In countries where Malaria is extremely prominent, many have been able to build up a resistance after continued exposure.
+	  	</div>
+<!-- 	  	<div id="world-map"></div> -->
+
   	</div>
   	<div id="trigger3" class="spacer s0"></div>  	
   	<div class="part" id="part3">
+		<div id="net"></div>
+  		 <div id="part2-info2">
+		 Malaria is treatable, but treatment needs to be prompt and accessible, which is a problem in some remote areas of Africa. In this case, malaria PREVENTION is key in fighting the global threat of malaria.
+	  	</div>
+
   	</div>
-  	<div id="trigger4" class="spacer s0"></div>  	
+  	<div id="trigger4" class="spacer s0"></div> 
+	<div class="part" id="part4">
+		
+	</div>
+		  	<div id="world-map"></div>
+	<div id="chart1" style="height: 300px; width: 500px; position: relative;"></div>
   </body>
 </html>
+
