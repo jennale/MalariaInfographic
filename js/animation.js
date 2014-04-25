@@ -2,7 +2,7 @@ var hori = $(window).width();
 var vert = $(window).height();
 
 $(window).load(function(){
-/* 	$(".loader").fadeOut("slow"); */ //Add a loading image to run while all images/etc are being created
+/* $("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created */
 $(".part").css("height",vert);
 });
 
@@ -18,8 +18,7 @@ $(window).scroll(function() {
 	initPart0(); //Malaria: Introduction
 	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
-				 //Prevention techniques 
-
+	initPart3(); //Prevention techniques 
 
 });
 
@@ -74,7 +73,6 @@ function wingFlap(){
 	var wings = $("#part0-wing");
 	wings.css("opacity","1");
 	TweenMax.to($("#part0-wing"),0.1,{opacity:"0",repeat:2,delay:rand(3,5),onComplete:wingFlap});
-
 }
 
 
@@ -83,9 +81,10 @@ function wingFlap(){
 /*-----------------------*/
 
 function initPart1(){
-	var pin,text1,text2,tween1,tween2,scene1,scene2;
+	var pin,text1,text2,tween1,tween2,scene1,scene2,scene3;
 	text1 = $("#part1-text1");
 	text2 = $("#part1-text2");
+	text3 = $("#part1-text3");
 	pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
 	pin.addIndicators();
 	pin.on("start",function(event){
@@ -94,12 +93,15 @@ function initPart1(){
 	
 	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20"});
 	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
+	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20"});	
 	
-	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+200,duration:0}).setTween(tween1);
-	scene2 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:0}).setTween(tween2);
+	scene1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration:0}).setTween(tween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+200,duration:0}).setTween(tween2);
+	scene3 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:0}).setTween(tween3);
+	
 		
 	controller = new ScrollMagic({loglevel: 3});
-	controller.addScene([pin,scene1,scene2]);
+	controller.addScene([pin,scene1,scene2,scene3]);
 	bloodFlow1();
 	bloodFlow2();
 }
@@ -125,16 +127,17 @@ function plasmodium(){
 	var flowL = $("#part1-flowL");
 	var flowR = $("#part1-flowR");
 	container.removeAttr("style");
-	$(".flow").css("opacity","0","-webkit-transform","");
-	$(".germs").removeAttr("style");
-	$(".flow").removeAttr("style");
+	$(".flow").css("opacity","0");
 	
-	TweenLite.to($(".flow"),1,{opacity:"1"});
-	var tween=TweenLite.from(flowL,1,{rotation: -90, top: "-200px", left: "-50px",ease:Linear.easeNone});
-	var tween2=TweenLite.from(flowR,1,{rotation: 90, top: "-200px", right: "-50px",ease:Linear.easeNone});
-    TweenLite.to($("#part1-flow"),2,{opacity:"0",delay:10});
-	
+	$("img .germs").removeAttr("style");
+	$(".flow").removeAttr("style");	
 
+	//,"-webkit-transform",""
+	TweenLite.to($(".flow"),1,{opacity:"1"});
+	var tween=TweenLite.from(flowL,1,{ top: "-200px", left: "-50px",ease:Linear.easeNone});
+	var tween2=TweenLite.from(flowR,1,{ top: "-200px", right: "-50px",ease:Linear.easeNone});
+/*     TweenLite.to($("#part1-flow"),2,{opacity:"0",delay:10}); */
+	
 	//Export particles in random movement burst
 	for (var i = 0; i < particles.length; i++){
     	TweenLite.to(particles[i], 4, {x:rand(0-width*2,width*2), y:rand(height, height*3), rotation:rand(-180, 180), delay:0.8 }),0;
@@ -142,17 +145,22 @@ function plasmodium(){
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
-    $('#part2-world-map').resize();
+
+    
+    fixMaps();
+    
+}
+
+function fixMaps(){
+	$('#part2-world-map').resize();
     $('#part2-world-map-cases').resize();
     $('#part4-world-map').resize();
-    
-    
-    
 }
 
 function rand(min, max) {
 	return Math.floor(Math.random() * (1 + max - min) + min);
 }
+
 
 
 /*-----------------------*/
@@ -162,15 +170,12 @@ function rand(min, max) {
 function initPart2(){
 	var pin,text1,text2,tween1,tween2,scene1,scene2;
 
-/*
 	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1000}).setPin("#part2");
 	pin.addIndicators();
 	
 	controller = new ScrollMagic({loglevel: 3});
 	controller.addScene([pin]);
-*/
-/* 	TweenLite.to($("#net"),10,({y:-1300}));
-*/
+
 	makePart2Map();
 	var thing = $("#part2-emph1 span");
 	countUp(thing.text(),thing,2000,0);
@@ -437,7 +442,32 @@ function makePieGraph(ITN, IRS, antiMal){
   return plot1;
 }
 
+/*-----------------------*/
+/* -- PART3 ANIMATION -- */
+/*-----------------------*/
+
+function initPart3(){
+	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 1000}).setPin("#part3");
+	pin.addIndicators();
+	
+	controller = new ScrollMagic({loglevel: 3});
+	controller.addScene([pin]);
+/* 	$("#net").hide(); */
+		TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone}));
+		TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone}));		
+		TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Expo.easeIn}));
+		TweenLite.to($("#net"),2,({opacity:"0",delay:5}));
+		
+		TweenLite.from($("#part3-mininet"),3,{scaleY:0.1,y:-300,opacity:"0",ease:Linear.easeNone});
+		TweenLite.from($("#part3-spraycan"),2,{y:20});
+		TweenMax.from($("#part3-spraycloud"),0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
+		
+}
+		
+
 /*
+	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
+
 	var width:Number = 400;
 var height:Number = 300;
 
