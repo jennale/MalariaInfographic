@@ -143,6 +143,11 @@ function plasmodium(){
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
     $('#part2-world-map').resize();
+    $('#part2-world-map-cases').resize();
+    $('#part4-world-map').resize();
+    
+    
+    
 }
 
 function rand(min, max) {
@@ -169,10 +174,10 @@ function initPart2(){
 	makePart2Map();
 	var thing = $("#part2-emph1 span");
 	countUp(thing.text(),thing,2000,0);
-/* 	makePart4Map(); */
+	makePart4Map();
 	$('#part2-world-map').vectorMap('get','mapObject').resize();
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
-/* 	makePart2MapCases(); */
+	makePart2MapCases();
 	var thing2 = $("#part2-emph2 span");
 	countUp(thing2.text(),thing2,2000,1);
 
