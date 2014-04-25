@@ -310,14 +310,17 @@ h1 {
 #part2-world-map,#part2-world-map-cases,#part4-world-map {
 	position:relative;
 	margin: auto auto;
+	right: 0px;
+	left:0px;
 	width: 80%;	/* 600px; */
 	height:60%;	/* 400px; */
 /* 	box-shadow: #545454 1px 1px 7px black */
 	z-index:0;
+	overflow: hidden;
 }
 
-#part2-world-map>.jvectormap-container {
-/* 	display:none; */
+.jvectormap-container {
+	height: 90%!important;
 }
 
 #part2-world-map-cases {
