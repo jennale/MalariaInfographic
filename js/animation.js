@@ -170,7 +170,7 @@ function initPart2(){
 	makePart4Map();
 	$('#part2-world-map').vectorMap('get','mapObject').resize();
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
-	makePart2MapCases();
+/* 	makePart2MapCases(); */
 	var thing2 = $("#part2-emph2 span");
 	countUp(thing2.text(),thing2,2000,1);
 
