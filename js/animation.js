@@ -51,6 +51,7 @@ function initPart0(){
 		
 	scene1.on("start",function(event){
 		instructions.pause();
+		
 	});
 	scene1.on("leave",function(event){
 		instructions.play();
@@ -141,6 +142,7 @@ function plasmodium(){
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
+    $('#part2-world-map').resize();
 }
 
 function rand(min, max) {
