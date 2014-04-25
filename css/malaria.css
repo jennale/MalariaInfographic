@@ -29,7 +29,7 @@ h1 {
 	width:100%;
 	overflow-x: hidden;
 	overflow: hidden;
-	display: none;
+/* 	display: none; */
 }
 
 #loader {
@@ -266,26 +266,90 @@ h1 {
 		/*-----------------------*/
 		/* --- PART 2 STYLES --- */
 		/*-----------------------*/
+#part2 {
+	background-color:#b8cebf;
+}
 
-#world-map {
+#part2-top {
+	position: absolute;
+	background: #60915f;
+	height: 80px;
+	width: 100%;
+}
+
+#part2 .textbox{
+	position:absolute;
+	background:rgba(255,255,255,0.5);
+	padding: 5px;
+	border-radius: 10px;
+	z-index: 2;	
+	color: black;
+	font-size: 12px;
+}
+/*
+#part2-text1{
+	margin: 0 auto!important;
+	right: 0px!important;
+	left: 0px!important;
+
+	background:transparent!important;
+}
+*/
+
+#part2-text2{
+	width:25%;
+	bottom: 100px;
+	left: 15px;
+}
+
+#part2-top-info p {
+	line-height: 2px;
+	color: #6c6c6c;
+}
+
+#part2-world-map,#part2-world-map-cases,#part4-world-map {
 	position:relative;
 	display:block;
 /* 	top:100px; */
+/*
 	right:0px;
 	left: 0px;
-	margin: 0 auto;
+*/
+	margin: auto auto;
 	width: 80%;	/* 600px; */
 	height:60%;	/* 400px; */
 /* 	box-shadow: #545454 1px 1px 7px black */
-	overflow:hidden;
-	bottom:0px;
+/* 	overflow:hidden; */
+	z-index:0;
+/* 	margin-top:-30px;	 */
 }
+
+#part2-world-map>.jvectormap-container {
+/* 	display:none; */
+}
+
+#part2-world-map-cases {
+	position:absolute
+	width: 100%;
+	height: 100%;
+	display:none;
+}
+
+
 
 .jvectormap-container {
 	height: 90%!important;
+	z-index: 0;
 }
 
-#world-map p {
+#part2-top-info {
+	position:relative;
+	margin-top:80px;
+	padding: 0px 20px 0px 20px;
+	z-index: 1;
+}
+
+#part2-world-map p, #part4-world-map p {
 	text-align: right;
 	margin-right:10px;
 	font-size: .8em;
@@ -293,7 +357,47 @@ h1 {
 	margin-top: 0px;
 }
 
+#part2-mapTitle {
+	position:absolute;
+	text-align: center;
+	bottom:30px;
+	margin: 0 auto;
+	right:0px;
+	left:0px;
+	color:#515151;
+	font-style: italic;
+}
+#part2-top-info p{
+	text-align: center;
+}
 
+#part2-emph1 {
+	text-align: center;
+}
+
+#part2-emph1 span {
+	font-size: 48px;
+	width:100px;
+}
+
+#part2-emph2 {
+	position:relative;
+	text-align: center;
+	margin: 0 auto;
+	z-index: 2;
+	right: 0px;
+	left: 0px;
+	padding-bottom: 15px;
+}
+
+#part2-emph2 span {
+	font-size: 48px;
+	width:100px;
+}
+
+#part2-emph1, #part2-emph2 {
+	
+}
 
 
 		/*-----------------------*/
@@ -302,6 +406,33 @@ h1 {
 #part3 {
 	background: #cbb475;
 }
+
+#part3-top {
+	position: absolute;
+	background: #e7a335;
+	height: 80px;
+	width: 100%;
+	z-index: 3;
+}
+
+#part3 .textbox {
+	position:absolute;
+}
+
+#part3-text1{
+	background:rgba(255,255,255,0.5);
+	padding: 5px 20px;
+	border-radius: 10px;
+	z-index: 5;	
+	color: #c40000;
+	margin: 0 auto;
+	right:0px;
+	left:0px;
+	top: 40%;
+	width: 50%;
+	height:150px;
+}
+
 #net {
 	position: absolute;
 	width: 100%;
@@ -309,6 +440,10 @@ h1 {
 	background: url('../images/net.png');
 	background-position: center top ;
 	z-index: 2;
+}
+#chart1 {
+	width: 100px;
+	height: auto;
 }
 
 .spacer {

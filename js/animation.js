@@ -15,8 +15,8 @@ $(window).scroll(function() {
 });
 
 //Simple initialization of all parts.
-/* 	initPart0(); //Malaria: Introduction */
-/* 	initPart1(); //What is Malaria? */
+	initPart0(); //Malaria: Introduction
+	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
 				 //Prevention techniques 
 
@@ -162,15 +162,115 @@ function initPart2(){
 	controller = new ScrollMagic({loglevel: 3});
 	controller.addScene([pin]);
 */
-/* 	TweenLite.to($("#net"),10,({y:-1300})); */
-	makeMap();
+/* 	TweenLite.to($("#net"),10,({y:-1300}));
+*/
+	makePart2Map();
+	var thing = $("#part2-emph1 span");
+	countUp(thing.text(),thing,2000,0);
+	makePart4Map();
+/* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
+	makePart2MapCases();
+	var thing2 = $("#part2-emph2 span");
+	countUp(thing2.text(),thing2,2000,1);
+
+/*     $('#part2-mapTitle').text("Malaria Cases by Country Visualization"); */
+
 }
 
+var plot1=null;
 
-function makeMap(){
-$('#world-map').vectorMap({
+function makePart2Map(){
+$('#part2-world-map').vectorMap({
   map: 'world_mill_en', //Dealing with the world map
-  backgroundColor:'white', //Set background
+  backgroundColor:'transparent', //Set background
+  zoomOnScroll: false,
+  regionStyle: {
+				  initial: {
+				    fill: '#4c4c4c'
+				  },
+				  hover: {
+				    /* "fill-opacity": 0.8 */
+				    fill: '#5c5c5c'
+				  },
+				  selected: {
+				    fill: 'yellow'
+				  },
+				  selectedHover: {
+				  }
+				},
+  
+  series: {				//Data visualization series
+    regions: [{
+      values: casesData,//Array variable to take data from
+      scale: ['#9a0001', '#9a0000'],	//Color scale
+      normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
+    }]
+  },
+  //Edit hover label format: Country \n Cases: ##
+  onRegionLabelShow: function(evt, lbl, countryCode){
+    lbl.html(lbl.html());
+  }
+});
+   $("#part2-world-map").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+   $('#part2-mapTitle').text("Countries Affected by Malaria");
+   };
+
+function makePart2MapCases(){
+$('#part2-world-map-cases').vectorMap({
+  map: 'world_mill_en', //Dealing with the world map
+  backgroundColor:'transparent', //Set background
+  zoomOnScroll: false,
+  regionStyle: {
+				  initial: {
+				    fill: '#4c4c4c'
+				  },
+				  hover: {
+				    /* "fill-opacity": 0.8 */
+				    fill: '#5c5c5c'
+				  },
+				  selected: {
+				    fill: 'yellow'
+				  },
+				  selectedHover: {
+				  }
+				},
+  
+  series: {				//Data visualization series
+    regions: [{
+      values: casesData,//Array variable to take data from
+      scale: ['#ffffff', '#9a0000'],	//Color scale
+      normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
+    }]
+  },
+  //Edit hover label format: Country \n Cases: ##
+  onRegionLabelShow: function(evt, lbl, countryCode){
+    lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
+  }
+});
+     $("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+   };
+
+function countUp(maxValue, countObject, duration,percentage){
+	var percent = '';
+$({countNum: 0}).animate({countNum:maxValue},{
+	duration: duration,
+	easing:'linear',
+	step: function(){
+		if (percentage==1)
+			percent = '%';
+		countObject.text(Math.floor(this.countNum)+percent);
+		},
+	complete: function() {
+		countObject.text(this.countNum+percent);
+		}
+	
+	})
+}
+
+function makePart4Map(){
+$('#part4-world-map').vectorMap({
+  map: 'world_mill_en', //Dealing with the world map
+  backgroundColor:'transparent', //Set background
   zoomOnScroll: false,
   regionsSelectable: true,
   regionsSelectableOne: true,
@@ -201,12 +301,22 @@ $('#world-map').vectorMap({
     lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
   },
   onRegionSelected: function(e, code, isSelected, selectedRegions){
-	  makeGraph(itnData2012[code]);
-/* 	  alert(itnData2012[code]); */
+   	 var country = $("#part4-world-map").vectorMap('get','mapObject').getRegionName(code);
+   	 if (plot1!=null){
+	  	plot1.destroy();
+	  	if (checkValidData(code))
+  	 		plot1 = makeBarGraph(itnData2012[code],irsData2012[code],antiMal2012[code],country);
+  	 }
+  	 else if (checkValidData(code)){
+  	 	plot1 = makeBarGraph(itnData2012[code],irsData2012[code],antiMal2012[code],country);
+ 	 }
   }
 });
+
    
-   $("#world-map").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+   $("#part4-world-map").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+
+};
 //Function is used to add commas to the formated number string (for Readability)
 	function formatNumber(nStr)
 	{
@@ -220,37 +330,105 @@ $('#world-map').vectorMap({
 		}
 		return x1 + x2;
 		}
-};
+		//Function is used to check if the country has valid data to be displayed in a graph
+function checkValidData(code){
+	if ((typeof itnData2012[code] == 'undefined')||(typeof irsData2012[code] == 'undefined')||(typeof antiMal2012[code] == 'undefined'))
+		return false;
+	else return true;
 
-function countUp(num){
-	
 }
 
-
-
-function makeGraph(numero){
+function makeBarGraph(ITN, IRS, antiMal, country){
 	var one, two, three;
-	one = numero;
-	two = 100-numero;
+	one = [ITN];
+	two = [IRS];
+	three = [antiMal];
+	if (ITN==-1){
+		one = [' '];
+		var title1 = "(No Information Provided)";
+	}
+	else title1 = 'Insectide Treated Nets '+one+'%';	
+	if (IRS==-1){
+		two = [' '];
+		var title2 = "(No Information Provided)";
+	}
+	else title2 = 'Indoor Residual Spraying '+two+'%';
 	
-	var data = [
-    ['Population potentially protected by ITNs', one],['Unprotected', two]
-  ];
-  var plot1 = jQuery.jqplot ('chart1', [data], 
+	if (antiMal==0){
+		three = [' '];
+		var title3 = "(No Information Provided)";
+	}
+	else title3 = ' Antimalarial Coverage '+three+'%';
+	var line = [ITN,IRS,antiMal];
+	var plot = jQuery.jqplot('chart1',[line],{
+		title: country + '\'s Estimated Intervention/Prevention Coverage',
+		seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            rendererOptions: {
+            barPadding: 8,      // number of pixels between adjacent bars in the same
+                                // group (same category or bin).
+            barMargin: 10,      // number of pixels between adjacent groups of bars.
+            barDirection: 'vertical', // vertical or horizontal.
+            barWidth: 50,     // width of the bars.  null to calculate automatically.
+            shadowOffset: 2,    // offset from the bar edge to stroke the shadow.
+            shadowDepth: 5,     // nuber of strokes to make for the shadow.
+            shadowAlpha: 0.8,   // transparency of the shadow.
+        }
+        },
+        series:[
+		{pointLabels:{
+			show: true,
+			labels:[title1, title2 , title3]
+		}}],
+		axesDefaults:{
+			min:0,
+			max:120
+		},
+        axes: {
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+            },
+            // Pad the y axis just a little so bars can get close to, but
+            // not touch, the grid boundaries.  1.2 is the default padding.
+            yaxis: {
+                pad: 1.05
+            }
+         }
+      }); 
+      return plot;
+	}
+
+function makePieGraph(ITN, IRS, antiMal){
+		var one, two, three, four, five, six;
+	one = ITN;
+	two = 100-ITN;
+	three = IRS;
+	four = 100-IRS;
+	five = antiMal;
+	six = 100-antiMal;
+	
+	var data = [['Population potentially protected by ITNs', one],['Unprotected', two]];
+	var data2 = [['% IRS Coverage', three],['Unprotected',four]];
+	var data3 = [['AntiMalarial coverage',five],['Unprotected',six]]
+	var plot1 = $.jqplot ('chart1', [data,data2,data3], 
     { 
       seriesDefaults: {
         // Make this a pie chart.
-        renderer: jQuery.jqplot.PieRenderer, 
+        renderer: $.jqplot.DonutRenderer, 
         rendererOptions: {
           // Put data labels on the pie slices.
           // By default, labels show the percentage of the slice.
+          sliceMargin: 1,
+          startAngle: -90,
           showDataLabels: true
         }
       }, 
       legend: { show:true, location: 'e' }
     }
   );
+  return plot1;
 }
+
 /*
 	var width:Number = 400;
 var height:Number = 300;
@@ -265,8 +443,6 @@ function randomNumber(min:Number, max:Number):Number {
     return Math.floor(Math.random() * (1 + max - min) + min);
 }
 */
-
-
 
 /*
 // init controller
