@@ -167,7 +167,7 @@ function initPart2(){
 	makePart2Map();
 	var thing = $("#part2-emph1 span");
 	countUp(thing.text(),thing,2000,0);
-	makePart4Map();
+/* 	makePart4Map(); */
 	$('#part2-world-map').vectorMap('get','mapObject').resize();
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
 /* 	makePart2MapCases(); */
