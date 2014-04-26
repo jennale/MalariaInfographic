@@ -79,20 +79,30 @@ h1 {
 	background: #fcc360;
 	border-radius: 10px;
 	border:6px outset #f7ae2f;
-	display: none;
+	z-index: 1;
+	cursor:default;
+/* 	Code for disabling text selection: */
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;	
 }
 .clicked {
 	border:6px inset #f7ae2f!important;
 }
 
 #instructions {
-	position:absolute;
+	position:fixed;
 	color:#787878;
 	margin: 0 auto;
-	left: 0px;
-	right: 0px;
+	left: 0px!important;
+	right: 0px!important;
 	text-align: center;
-	top: 10%;
+	top: 0px;
+	z-index: 2;
+	opacity: 1;
 }
 
 #banner {
