@@ -37,6 +37,7 @@ $(window).resize(function() {
 	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
+	initPart4();
 	
 
 });
@@ -57,7 +58,7 @@ function initPart0(){
 		$(this).addClass("clicked");
 	}).bind('mouseup mouseleave', function() {
 		$(this).removeClass("clicked")
-		scrollTo(0,201);
+		scrollTo(0,200);
 		TweenLite.to($('#startBtn'),0.5,{opacity:"0"});
 	});
 	
@@ -68,9 +69,9 @@ function initPart0(){
 	tween2 = TweenMax.staggerFrom([line,line2],1.5,{opacity:"0", delay: 2},1.5);
 	//Mosquito drinking
 	tween3 = TweenLite.from($("#part0-mosn,#part0-mosr,#part0-wing"),3,{delay:3 ,y:-vert,x:hori,ease:RoughEase.ease.config({points:9, template:Elastic.easeIn, taper:"in", clamp:true})});
-	tween4 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
+	tween4 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone});	
 	
-	controller = new ScrollMagic({loglevel: 3});
+	controller = new ScrollMagic();
 	
 	scene = new ScrollScene({duration:1}).setPin("#trigger1");
 	
@@ -78,23 +79,20 @@ function initPart0(){
 		TweenLite.to($('#startBtn'),2,{opacity:"1"});
 	});
 
-	pin = new ScrollScene({duration: 1000}).setPin("#part0");
+	pin = new ScrollScene({duration: 800}).setPin("#part0");
 	
 	scene1 = new ScrollScene({offset:"200",duration: 0}).setTween(tween1);
 	scene2 = new ScrollScene({offset:"200",duration: 0}).setTween(tween2);
 	scene3 = new ScrollScene({offset:"200",duration: 0}).setTween(tween3);
-	scene4 = new ScrollScene({offset:"200",duration: 500}).setTween(tween4);
+	scene4 = new ScrollScene({offset:"210",duration: 600}).setTween(tween4);
 	
 	
-	scene1.on("start",function(event){
+	scene1.on("end",function(event){
 		TweenLite.to($('#startBtn'),0.1,{opacity:"0"});
-	});
-	
-	scene4.on("start",function(event){
 		$("#instructions").removeAttr("style");
-		TweenLite.from($("#instructions"),2,{opacity:"0",top:vert,delay:5.5});
+		TweenLite.from($("#instructions"),2,{opacity:"0",top:vert,delay:4});
 		TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});	
-	});	
+	});
 
 	controller.addScene([pin,scene,scene1,scene2,scene3,scene4]);
 	wingFlap();
@@ -129,6 +127,9 @@ function initPart1(){
 	pin.on("start",function(event){
 		plasmodium();
 	});
+	pin.on("exit",function(event){
+		$(".germs").removeAttr("style");
+	});
 	
 	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20"});
 	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
@@ -139,7 +140,7 @@ function initPart1(){
 	scene3 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:0}).setTween(tween3);
 	
 		
-	controller = new ScrollMagic({loglevel: 3});
+	controller = new ScrollMagic();
 	controller.addScene([pin,scene1,scene2,scene3]);
 	bloodFlow1();
 	bloodFlow2();
@@ -166,9 +167,9 @@ function plasmodium(){
 	var flowL = $("#part1-flowL");
 	var flowR = $("#part1-flowR");
 	container.removeAttr("style");
-	$(".flow").css("opacity","0");
+/* 	$(".flow").css("opacity","0"); */
 	
-	$("img .germs").removeAttr("style");
+	$("img.germs").removeAttr("style");
 	$(".flow").removeAttr("style");	
 
 	//,"-webkit-transform",""
@@ -179,7 +180,7 @@ function plasmodium(){
 	
 	//Export particles in random movement burst
 	for (var i = 0; i < particles.length; i++){
-    	TweenLite.to(particles[i], 4, {x:rand(0-width*2,width*2), y:rand(height, height*3), rotation:rand(-180, 180), delay:0.8 }),0;
+    	TweenLite.to(particles[i], 4, {left:rand(0-width*2,width*2), top:rand(height, height*3), rotation:rand(-180, 180), delay:0.8 }),0;
     }
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
@@ -207,27 +208,54 @@ function rand(min, max) {
 /*-----------------------*/
 
 function initPart2(){
-	var pin,text1,text2,tween1,tween2,scene1,scene2;
-
-	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1000}).setPin("#part2");
-	pin.addIndicators();
+	var pin,map,mapCases,textbox,text1,text2,text3,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2;
+	makePart2Map();
+	makePart2MapCases();
 	
-	controller = new ScrollMagic({loglevel: 3});
+	map = $('#part2-world-map');
+	mapCases = $('#part2-world-map-cases');
+	emph1 = $("#part2-emph1 span");
+	emph2 = $("#part2-emph2 span");
+	
+	text1 = $("#part2-emph1");
+	text2 = $("#part2-top-info");
+	text3 = $("#part2-emph2");	
+	
+	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20",display:"none"});
+	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
+	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20"});		
+	
+	countUp(emph1.text(),emph1,2000,0);
+	countUp(emph2.text(),emph2,2000,1);
+	
+	mapTween1 = TweenLite.to(map,2,{opacity:"0",onComplete:hideMap});
+	mapTween2 = 
+
+/* 	map.fadeOut("slow"); */
+/* 	TweenMax.to(mapCases,2,{opacity:"1",delay:2.2}); */
+
+	
+	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1000}).setPin("#part2");
+	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+200,duration:0}).setTween(tween2);
+	scene3 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(tween3);
+	
+	
+	controller = new ScrollMagic();
 	controller.addScene([pin]);
 
-	makePart2Map();
-	var thing = $("#part2-emph1 span");
-	countUp(thing.text(),thing,2000,0);
-	makePart4Map();
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
-	$('#part2-world-map').fadeOut(2000);
-	TweenMax.to($('#part2-world-map-cases'),2,{opacity:"1",delay:2.2});
+/* 	$('#part2-world-map').fadeOut(2000); */
+/* 	TweenMax.to($('#part2-world-map-cases'),2,{opacity:"1",delay:2.2}); */
 	fixMaps();
-	makePart2MapCases();
-	var thing2 = $("#part2-emph2 span");
-	countUp(thing2.text(),thing2,2000,1);
-
-
+	function hideMap(){
+		map.css("display","none");
+		mapCases.css("display","");
+		TweenLite.to(mapCases,1,{opacity:"1"});
+		$("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+		
+	}
+	
 }
 
 var plot1=null;
@@ -300,7 +328,6 @@ $('#part2-world-map-cases').vectorMap({
     lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
   }
 });
-     $("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
    };
 
 function countUp(maxValue, countObject, duration,percentage){
@@ -320,6 +347,37 @@ $({countNum: 0}).animate({countNum:maxValue},{
 	})
 }
 
+
+/*-----------------------*/
+/* -- PART3 ANIMATION -- */
+/*-----------------------*/
+
+function initPart3(){
+	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 1000}).setPin("#part3");
+	pin.addIndicators();
+	
+	controller = new ScrollMagic({loglevel: 3});
+	controller.addScene([pin]);
+/* 	$("#net").hide(); */
+		TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone}));
+		TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone}));		
+		TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Expo.easeIn}));
+		TweenLite.to($("#net"),2,({opacity:"0",delay:5}));
+		
+		TweenLite.from($("#part3-mininet"),3,{scaleY:0.1,y:-300,opacity:"0",ease:Linear.easeNone});
+		TweenLite.from($("#part3-spraycan"),2,{y:20});
+		TweenMax.from($("#part3-spraycloud"),0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
+		
+}
+	
+	
+/*-----------------------*/
+/* -- PART4 ANIMATION -- */
+/*-----------------------*/
+function initPart4(){
+	makePart4Map();	
+	
+}
 function makePart4Map(){
 $('#part4-world-map').vectorMap({
   map: 'world_mill_en', //Dealing with the world map
@@ -390,6 +448,7 @@ function checkValidData(code){
 	else return true;
 
 }
+
 
 function makeBarGraph(ITN, IRS, antiMal, country){
 	var one, two, three;
@@ -481,30 +540,6 @@ function makePieGraph(ITN, IRS, antiMal){
   );
   return plot1;
 }
-
-/*-----------------------*/
-/* -- PART3 ANIMATION -- */
-/*-----------------------*/
-
-function initPart3(){
-	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 1000}).setPin("#part3");
-	pin.addIndicators();
-	
-	controller = new ScrollMagic({loglevel: 3});
-	controller.addScene([pin]);
-/* 	$("#net").hide(); */
-		TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone}));
-		TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone}));		
-		TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Expo.easeIn}));
-		TweenLite.to($("#net"),2,({opacity:"0",delay:5}));
-		
-		TweenLite.from($("#part3-mininet"),3,{scaleY:0.1,y:-300,opacity:"0",ease:Linear.easeNone});
-		TweenLite.from($("#part3-spraycan"),2,{y:20});
-		TweenMax.from($("#part3-spraycloud"),0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
-		
-}
-	
-
 
 /*
 	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	

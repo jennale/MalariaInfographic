@@ -94,7 +94,7 @@ h1 {
 }
 
 #instructions {
-	position:fixed;
+	position:relative;
 	color:#787878;
 	margin: 0 auto;
 	left: 0px!important;
@@ -104,6 +104,7 @@ h1 {
 	z-index: 2;
 	opacity: 1;
 }
+
 
 #banner {
 	position:relative;
@@ -398,14 +399,10 @@ h1 {
 #part2-world-map-cases {
 	position:absolute;
 	opacity:0;
-/* 	display:none; */
 }
 
-
-
-.jvectormap-container {
-	height: 90%!important;
-	z-index: 0;
+#part2-world-map-cases .jvectormap-container {
+	position: absolute!important;
 }
 
 #part2-top-info {
@@ -415,12 +412,13 @@ h1 {
 	z-index: 1;
 }
 
-#part2-world-map p, #part4-world-map p,#part2-world-map-cases p {
+#part2-world-map p, #part4-world-map p, #part2-world-map-cases p {
 	text-align: right;
 	margin-right:10px;
 	font-size: .8em;
 	color: grey;
 	margin-top: 0px;
+	bottom:0px;
 }
 
 #part2-mapTitle {
