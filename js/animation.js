@@ -19,6 +19,7 @@ $(window).scroll(function() {
 	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
+	
 
 });
 
@@ -31,16 +32,22 @@ function initPart0(){
 	banner = $("#banner");		
 	line = $("#banner .mid:first");
 	line2 = line.next();	
-	
+
 	var instructions = TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});
 	
+	$('.box').on('click', function(e){
+  e.preventDefault();
+  $(this).css('border-color', 'lime');
+});
+	
 	//Banner image
-	tween1 = TweenLite.from(banner,1.5,{transform:"rotateY",opacity:"0"});
+	TweenLite.set(banner, {transformPerspective:500});	
+	tween1 = TweenLite.from(banner,1.5,{y:-50,opacity:"0"});
 	//Lines of text
 	tween2 = TweenMax.staggerFrom([line,line2],3,{opacity:"0", delay: 0},1);
 	//Mosquito drinking
 	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
-	
+/* 	tween3 = TweenLite.from($("#part0-mosn,#part0-mosr,#part0-wing"),3,{y:-vert,x:hori,ease:Bounce.easeInOut}); */
 	controller = new ScrollMagic({loglevel: 3});
 	
 	scene1 = new ScrollScene({offset:"100",duration: 150}).setTween(tween1);
@@ -180,13 +187,14 @@ function initPart2(){
 	var thing = $("#part2-emph1 span");
 	countUp(thing.text(),thing,2000,0);
 	makePart4Map();
-	$('#part2-world-map').vectorMap('get','mapObject').resize();
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
+	$('#part2-world-map').fadeOut(2000);
+	TweenMax.to($('#part2-world-map-cases'),2,{opacity:"1",delay:2.2});
+	fixMaps();
 	makePart2MapCases();
 	var thing2 = $("#part2-emph2 span");
 	countUp(thing2.text(),thing2,2000,1);
 
-/*     $('#part2-mapTitle').text("Malaria Cases by Country Visualization"); */
 
 }
 
@@ -452,7 +460,7 @@ function initPart3(){
 	
 	controller = new ScrollMagic({loglevel: 3});
 	controller.addScene([pin]);
-/* 	$("#net").hide(); */
+	$("#net").hide();
 		TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone}));
 		TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone}));		
 		TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Expo.easeIn}));
@@ -463,7 +471,8 @@ function initPart3(){
 		TweenMax.from($("#part3-spraycloud"),0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
 		
 }
-		
+	
+
 
 /*
 	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	

@@ -67,6 +67,24 @@ h1 {
 	background-color: #a5ccd3;
 }
 
+#startBtn {
+	position: absolute;
+	margin: 0 auto;
+	left:0px;
+	right:0px;
+	top: 30%;
+	width: 250px;
+	height: 57px;
+	text-align: center;
+	background: #fcc360;
+	border-radius: 10px;
+	border:6px outset #f7ae2f;
+	display: none;
+}
+.clicked {
+	border:6px inset #f7ae2f!important;
+}
+
 #instructions {
 	position:absolute;
 	color:#787878;
@@ -324,15 +342,52 @@ h1 {
 	z-index:0;
 	overflow: hidden;
 }
+#part2-map-legend {
+	border-radius: 0px!important;
+	width: auto;
+	height: auto;
+	text-align: center;
+	background: #e7e7e7!important;
+	right: 0px;
+	bottom:70px;
+}
+
+#part2-map-legend .legend-colours{
+	width:15px;
+	height:15px;
+	background:#9a0000;
+	float:left;	
+}
+
+#part2-map-legend-cases {
+	border-radius: 0px!important;
+	width: auto;
+	height: auto;
+	text-align: center;
+	right: 0px;
+	bottom:70px;
+	background: #e7e7e7!important;
+}
+
+#part2-map-legend-cases .legend-colours {
+	width: 100px;
+	height: 15px;
+	margin-bottom: -3px;
+	display: inline-block;
+	background: -webkit-linear-gradient(left, white , #9a0000); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, white, #9a0000); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, white, #9a0000); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, white , #9a0000); /* Standard syntax (must be last) */
+}
+/* '#ffffff', '#9a0000' */
 
 .jvectormap-container {
 	height: 90%!important;
 }
 
 #part2-world-map-cases {
-	position:absolute
-	width: 100%;
-	height: 100%;
+	position:absolute;
+	opacity:0;
 /* 	display:none; */
 }
 
@@ -350,7 +405,7 @@ h1 {
 	z-index: 1;
 }
 
-#part2-world-map p, #part4-world-map p {
+#part2-world-map p, #part4-world-map p,#part2-world-map-cases p {
 	text-align: right;
 	margin-right:10px;
 	font-size: .8em;
