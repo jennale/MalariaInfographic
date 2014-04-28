@@ -15,7 +15,7 @@ $(window).scroll(function() {
 	var getVert = $(this).scrollTop();
 });
 
-/*
+//Code used to give users option to refresh page when they resize
 $(window).resize(function() {
 	var getHor2 = $(window).width();
 	var getVert2 = $(window).height();
@@ -30,8 +30,6 @@ $(window).resize(function() {
 	  }
 	  	window.count++;  
 });
-*/
-
 
 /* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
 var scroll = 0;
