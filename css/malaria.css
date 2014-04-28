@@ -93,16 +93,29 @@ h1 {
 	border:6px inset #f7ae2f!important;
 }
 
-#instructions {
+#instructions, #instructions-hint {
 	position:relative;
 	color:#787878;
 	margin: 0 auto;
 	left: 0px!important;
 	right: 0px!important;
 	text-align: center;
-	top: 0px;
-	z-index: 2;
+	z-index: 5;
 	opacity: 1;
+}
+
+#instructions {
+	top: 0px;
+}
+
+#instructions-hint {
+	position: fixed;
+	margin: 0 auto;
+	bottom:-25px;
+	color:rgba(159,159,159,0.59);
+	width: 100px;
+	font-size:14px;
+	opacity: 0;
 }
 
 
@@ -564,6 +577,13 @@ h1 {
 	height: 100%;
 }
 
+.methods-bottom p {
+	position:absolute;
+	text-align: right;
+	font-size: 14px;
+	z-index: 2;
+}
+
 #part3-bed,#part3-mininet {
 	position: absolute;
 	height:40%;
@@ -601,10 +621,96 @@ h1 {
 */
 
 
+		/*-----------------------*/
+		/* --- PART 4 STYLES --- */
+		/*-----------------------*/
+#part4{
+	background: #6fa1ad;
+}		
+
+#part4-top {
+	position: absolute;
+	background: #c13b3b;
+	height: 80px;
+	width: 100%;
+	z-index: 3;
+	}
+
+#part4-toptext {
+	max-height:160px;
+	min-height: 160px;
+	margin-top: 70px;
+	width:90%;
+	position: relative;
+/* 	background: #e5ddba; */
+	margin-bottom: 20px;
+	
+	-webkit-column-count:2; /* Chrome, Safari, Opera */
+	-moz-column-count:2; /* Firefox */
+	column-count:2;	
+	color: white;
+	padding: 20px;
+	font-size: 14px;
+	z-index: 1;
+}
+
+#part4 .textbox{
+	position:absolute;
+	background:rgba(255,255,255,0.5);
+	padding: 5px;
+	border-radius: 10px;
+	z-index: 2;	
+	color: black;
+	font-size: 12px;
+}
 
 #chart1 {
-	width: 100px;
+	width: 70%;
+	height: 200px;
+	position:relative;
+	text-align: center;
+	margin: 0 auto;
+	background: #d6e0e6;
+	border: 2px inset rgba(175,175,175,0.4);
+}
+
+#part4-world-map {
+	position:absolute;
+	vertical-align: bottom!important;
+	bottom:0px!important;
+	margin-bottom: 0px!important;
+	z-index: 0;
+}
+
+
+#part4-map-legend-cases {
+	border-radius: 0px!important;
+	width: auto;
 	height: auto;
+	text-align: center;
+	right: 0px;
+	bottom:70px;
+	background: #e7e7e7!important;
+}
+
+#part4-map-legend-cases .legend-colours {
+	width: 100px;
+	height: 15px;
+	margin-bottom: -3px;
+	display: inline-block;
+	background: -webkit-linear-gradient(left, white , #9a0000); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, white, #9a0000); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, white, #9a0000); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, white , #9a0000); /* Standard syntax (must be last) */
+}
+
+#part4b{
+	position: relative;
+	background-color:#6fa1ad;
+	height: 200px;
+	padding-top: 10px;
+	padding-bottom:70px;
+	z-index: 5;
 }
 
 .spacer {
@@ -615,3 +721,11 @@ h1 {
 .spacer.s0 {
 	min-height: 1px;
 }
+
+
+/*
+			<div id="part4-toptext"></div>	
+		  	<div id="part4-world-map"></div>
+	</div>
+	<div id="chart1" style="height: 200px; width: 70%; position: relative; text-align:center;margin: 0 auto;"></div>		
+*/

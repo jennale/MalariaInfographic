@@ -32,13 +32,43 @@ $(window).resize(function() {
 });
 */
 
+
+/* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
+var scroll = 0;
+
+function hint(position)
+{
+	var hint = $("#instructions-hint");
+	hint.removeAttr("style");
+setTimeout(function(){
+	if (position == $(window).scrollTop() && 800<$(window).scrollTop()){
+		TweenLite.to($("#instructions-hint"),1,{opacity:"1",bottom:"5px"},Linear.easeNone);		
+	}
+},5000);
+}
+
+$(window).scroll(function() {
+    window.scroll=$(window).scrollTop();
+    hint(window.scroll);
+    
+/*
+	    
+    if(st>1450){
+        if(flag)
+        alert('test');flag=false;
+    }
+*/
+    
+});
+
+
 //Simple initialization of all parts.
 	initPart0(); //Malaria: Introduction
 	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
-	initPart4();
-	
+	initPart4(); //What is being done / Future goals
+/* 	myFunction(window.scroll); */
 
 });
 
@@ -52,6 +82,8 @@ function initPart0(){
 	line = $("#banner .mid:first");
 	line2 = line.next();	
 	$("#instructions").css("opacity","0");
+	
+	TweenMax.to($("#instructions-hint"),1,{y:"10",yoyo:true,repeat:-1});	
 			
 	//Start button
 	$('#startBtn').mousedown(function() {
@@ -518,7 +550,7 @@ $('#part4-world-map').vectorMap({
   series: {				//Data visualization series
     regions: [{
       values: casesData,//Array variable to take data from
-      scale: ['#ffb9b2', '#9a0000'],	//Color scale
+      scale: ['#ffffff', '#9a0000'],	//Color scale
       normalizeFunction: 'polynomial'	//Displays the difference/contrast between numbers more clearly
     }]
   },
