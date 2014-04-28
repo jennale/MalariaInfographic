@@ -56,7 +56,7 @@ function initPart0(){
 	//Start button
 	$('#startBtn').mousedown(function() {
 		$(this).addClass("clicked");
-	}).bind('mouseup mouseleave', function() {
+	}).bind('mouseup ', function() {
 		$(this).removeClass("clicked")
 		scrollTo(0,200);
 		TweenLite.to($('#startBtn'),0.5,{opacity:"0"});
@@ -111,7 +111,6 @@ function wingFlap(){
 	wings.css("opacity","1");
 	TweenMax.to($("#part0-wing"),0.1,{opacity:"0",repeat:2,delay:rand(3,5),onComplete:wingFlap});
 }
-
 
 /*-----------------------*/
 /* -- PART1 ANIMATION -- */
@@ -208,7 +207,7 @@ function rand(min, max) {
 /*-----------------------*/
 
 function initPart2(){
-	var pin,map,mapCases,textbox,text1,text2,text3,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2;
+	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
 	makePart2Map();
 	makePart2MapCases();
 	
@@ -218,45 +217,76 @@ function initPart2(){
 	emph2 = $("#part2-emph2 span");
 	
 	text1 = $("#part2-emph1");
-	text2 = $("#part2-top-info");
+	text2 = $("#part2-top-info p");
 	text3 = $("#part2-emph2");	
+	textbox = $("#part2-text2");
 	
-	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20",display:"none"});
-	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
-	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20"});		
+	//"Malaria is endemic to 97 countries worldwide
+	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[97,emph1,2000,0]});
+	//"Generally in tropical and subtropic regions of the world"
+	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20",delay:2});	
+	//"But 90% of deaths occur in sub-saharan africa"
+	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[90,emph2,2000,1]});		
+	//Why in africa? (textbox)
+	tween4 = TweenLite.from(textbox,1,{opacity:"0",y:"20"});	
+/*
 	
 	countUp(emph1.text(),emph1,2000,0);
 	countUp(emph2.text(),emph2,2000,1);
+*/
 	
-	mapTween1 = TweenLite.to(map,2,{opacity:"0",onComplete:hideMap});
-	mapTween2 = 
 
 /* 	map.fadeOut("slow"); */
 /* 	TweenMax.to(mapCases,2,{opacity:"1",delay:2.2}); */
 
+	mapTween1 = TweenLite.to(map,0.1,{opacity:"0",onComplete:hideMap,delay:2.5});
 	
-	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1000}).setPin("#part2");
+
+	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
 	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
-	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+200,duration:0}).setTween(tween2);
+	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween2);
 	scene3 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(tween3);
-	
+	space1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(mapTween1);
+	scene4 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+700,duration:0}).setTween(tween4);
 	
 	controller = new ScrollMagic();
-	controller.addScene([pin]);
-
+	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
+	
+/*
+	//Reset emphasized numbers so that countdown animation can restart normally
+	scene1.on("start",function(event){
+		emph1.html("&nbsp;");	
+	});
+	scene2.on("start",function(event){
+		emph2.html("&nbsp;");
+	});
+*/
+	space1.on("start",function(event){
+		map.removeAttr("style");
+		mapCases.removeAttr("style");			
+	});
+		
 /* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
 /* 	$('#part2-world-map').fadeOut(2000); */
 /* 	TweenMax.to($('#part2-world-map-cases'),2,{opacity:"1",delay:2.2}); */
+
 	fixMaps();
+
 	function hideMap(){
 		map.css("display","none");
-		mapCases.css("display","");
-		TweenLite.to(mapCases,1,{opacity:"1"});
-		$("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>");
+		mapCases.css("opacity","1");
 		
+/* 		TweenLite.to(mapCases,1,{opacity:"1"}); */
+/* 		$("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>"); */
 	}
-	
 }
+
+/*
+	pin.on("start",function(event){
+		plasmodium();
+	});
+*/
+
 
 var plot1=null;
 
@@ -271,10 +301,10 @@ $('#part2-world-map').vectorMap({
 				  },
 				  hover: {
 				    /* "fill-opacity": 0.8 */
-				    fill: '#5c5c5c'
+				    fill: '#fba309'
 				  },
 				  selected: {
-				    fill: 'yellow'
+				    fill: '#fba309'
 				  },
 				  selectedHover: {
 				  }
@@ -307,10 +337,10 @@ $('#part2-world-map-cases').vectorMap({
 				  },
 				  hover: {
 				    /* "fill-opacity": 0.8 */
-				    fill: '#5c5c5c'
+				    fill: '#fba309'
 				  },
 				  selected: {
-				    fill: 'yellow'
+				    fill: '#fba309'
 				  },
 				  selectedHover: {
 				  }
@@ -326,9 +356,9 @@ $('#part2-world-map-cases').vectorMap({
   //Edit hover label format: Country \n Cases: ##
   onRegionLabelShow: function(evt, lbl, countryCode){
     lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
-  }
+	}
 });
-   };
+};
 
 function countUp(maxValue, countObject, duration,percentage){
 	var percent = '';
@@ -353,22 +383,107 @@ $({countNum: 0}).animate({countNum:maxValue},{
 /*-----------------------*/
 
 function initPart3(){
-	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 1000}).setPin("#part3");
+	var pin,textbox1,textbox2,textbox3,textbox4, bigNet, miniNet, bed, sprayCan, sprayCloud, woman, moon;
+	var netTween1, netTween2, nightTween1, nightTween2;
+	
+	textbox1 = $("#part3-ITN"); //ITN textbox
+	textbox2 = $("#part3-IRS"); //IRS textbox
+	textbox3 = $("#part3-antiMed"); //antimalarial medicine textbox
+	textbox4 = $("#part3-other"); //other textbox
+	
+	
+	bigNet = $("#net");
+	
+	miniNet = $("#part3-mininet");
+	bed = $("#part3-bed");
+	
+	sprayCan = $("#part3-spraycan");
+	sprayCloud = $("#part3-spraycloud");
+	
+
+/* 	$("#net").hide(); */
+
+	//Turning into night
+	nightTween1 = TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone,delay:2}));
+	nightTween2 = TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone,delay:2}));
+	nightTween3 = TweenLite.from($("#net"),2,({css:{"backgroundColor": "rgba(112,112,112,0.46)"},ease:Linear.easeNone,delay:2}));
+	//Moving net up
+	netTween1 = TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Linear.easeNone}));
+	netTween2 = TweenLite.to($("#net"),2,({opacity:"0"}));
+	
+	//Textboxes
+	tween1 = TweenLite.from(textbox1,1,{opacity:"0",y:"20"});	
+	tween2 = TweenLite.from(textbox2,1,{opacity:"0",y:"20"});	
+	tween3 = TweenLite.from(textbox3,1,{opacity:"0",y:"20"});	
+	tween4 = TweenLite.from(textbox4,1,{opacity:"0",y:"20"});	
+	
+	tweenMiniNet = TweenLite.from(miniNet,3,{scaleY:0.1,y:-300,opacity:"0",ease:Linear.easeNone});
+	
+	tweenSprayCan = TweenLite.from(sprayCan,2,{y:20});
+	tweenSprayCloud = TweenMax.from(sprayCloud,0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
+		
+	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 3000}).setPin("#part3");
+	scene1 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween2);
+	scene2b = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween3);
+	
+	scene3 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+500,duration:800}).setTween(netTween1);
+	scene4 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+1000,duration:300}).setTween(netTween2);
+	
+	scene5 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+1400,duration:0}).setTween(tween1);	
+	scene6 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+1650,duration:250}).setTween(tweenMiniNet);	
+	
+	scene7 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2000,duration:0}).setTween(tween2);	
+	scene8 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2150,duration:50}).setTween(tweenSprayCan);	
+	scene9 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2200,duration:100}).setTween(tweenSprayCloud);
+	scene10 =new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2400,duration:0}).setTween(tween3); 	
+	
 	pin.addIndicators();
 	
-	controller = new ScrollMagic({loglevel: 3});
-	controller.addScene([pin]);
-/* 	$("#net").hide(); */
-		TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone}));
-		TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone}));		
-		TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Expo.easeIn}));
-		TweenLite.to($("#net"),2,({opacity:"0",delay:5}));
-		
-		TweenLite.from($("#part3-mininet"),3,{scaleY:0.1,y:-300,opacity:"0",ease:Linear.easeNone});
-		TweenLite.from($("#part3-spraycan"),2,{y:20});
-		TweenMax.from($("#part3-spraycloud"),0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
+	controller = new ScrollMagic();
+	controller.addScene([pin,scene1,scene2,scene2b,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10]);	
 		
 }
+
+
+
+/*
+	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
+	makePart2Map();
+	makePart2MapCases();
+	
+	map = $('#part2-world-map');
+	mapCases = $('#part2-world-map-cases');
+	emph1 = $("#part2-emph1 span");
+	emph2 = $("#part2-emph2 span");
+	
+	text1 = $("#part2-emph1");
+	text2 = $("#part2-top-info p");
+	text3 = $("#part2-emph2");	
+	textbox = $("#part2-text2");
+	
+	//"Malaria is endemic to 97 countries worldwide
+	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[97,emph1,2000,0]});
+	//"Generally in tropical and subtropic regions of the world"
+	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20",delay:2});	
+	//"But 90% of deaths occur in sub-saharan africa"
+	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[90,emph2,2000,1]});		
+	//Why in africa? (textbox)
+	tween4 = TweenLite.from(textbox,1,{opacity:"0",y:"20"});	
+
+	mapTween1 = TweenLite.to(map,0.1,{opacity:"0",onComplete:hideMap,delay:2.5});
+	
+	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
+	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween2);
+	scene3 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(tween3);
+	space1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(mapTween1);
+	scene4 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+700,duration:0}).setTween(tween4);
+	
+	controller = new ScrollMagic();
+	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
+*/
+
 	
 	
 /*-----------------------*/
@@ -391,10 +506,10 @@ $('#part4-world-map').vectorMap({
 				  },
 				  hover: {
 				    /* "fill-opacity": 0.8 */
-				    fill: '#5c5c5c'
+				    fill: '#fba309'
 				  },
 				  selected: {
-				    fill: 'yellow'
+				    fill: '#fba309'
 				  },
 				  selectedHover: {
 				  }
