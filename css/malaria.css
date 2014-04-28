@@ -639,18 +639,16 @@ h1 {
 #part4-toptext {
 	max-height:160px;
 	min-height: 160px;
+	margin: 0 auto;
 	margin-top: 70px;
 	width:90%;
 	position: relative;
 /* 	background: #e5ddba; */
 	margin-bottom: 20px;
-	
-	-webkit-column-count:2; /* Chrome, Safari, Opera */
-	-moz-column-count:2; /* Firefox */
-	column-count:2;	
+		
 	color: white;
 	padding: 20px;
-	font-size: 14px;
+	font-size: 17px;
 	z-index: 1;
 }
 

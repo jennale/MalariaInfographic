@@ -524,6 +524,12 @@ function initPart3(){
 function initPart4(){
 	makePart4Map();	
 	
+	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
+	pin = new ScrollScene({triggerElement:"#trigger4",offset:vert/2,duration: 500}).setPin("#part4");
+
+	controller = new ScrollMagic();
+	controller.addScene([pin]);	
+	
 }
 function makePart4Map(){
 $('#part4-world-map').vectorMap({
@@ -568,6 +574,7 @@ $('#part4-world-map').vectorMap({
   	 else if (checkValidData(code)){
   	 	plot1 = makeBarGraph(itnData2012[code],irsData2012[code],antiMal2012[code],country);
  	 }
+ 	 scrollTo(0,document.body.scrollHeight,{duration:'slow'});
   }
 });
 
@@ -650,7 +657,11 @@ function makeBarGraph(ITN, IRS, antiMal, country){
             // Pad the y axis just a little so bars can get close to, but
             // not touch, the grid boundaries.  1.2 is the default padding.
             yaxis: {
-                pad: 1.05
+            	label:'% of population potentially protected',
+                pad: 1.05,
+          labelOptions: {
+            fontSize: '8pt'
+          }                
             }
          }
       }); 
