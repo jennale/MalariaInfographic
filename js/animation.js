@@ -96,6 +96,8 @@ function initPart0(){
 	
 	//Banner image
 	TweenLite.set(banner, {transformPerspective:500});	
+	text1 = TweenLite.from($("#part0-text"),1,{opacity:"0",x:"20"});
+	TweenMax.to($("#part0-text"),5,{x:"-40",yoyo:true,repeat:-1,ease:Linear.easeNone});
 	tween1 = TweenLite.from(banner,1.5,{rotationX:90,y:-50,opacity:"0"});
 	//Lines of text
 	tween2 = TweenMax.staggerFrom([line,line2],1.5,{opacity:"0", delay: 2},1.5);
@@ -112,12 +114,12 @@ function initPart0(){
 	});
 
 	pin = new ScrollScene({duration: 800}).setPin("#part0");
-	
+
 	scene1 = new ScrollScene({offset:"200",duration: 0}).setTween(tween1);
 	scene2 = new ScrollScene({offset:"200",duration: 0}).setTween(tween2);
 	scene3 = new ScrollScene({offset:"200",duration: 0}).setTween(tween3);
 	scene4 = new ScrollScene({offset:"210",duration: 600}).setTween(tween4);
-	
+	scene5 = new ScrollScene({offset:"300",duration: 0}).setTween(text1);
 	
 	scene1.on("end",function(event){
 		TweenLite.to($('#startBtn'),0.1,{opacity:"0"});
@@ -126,7 +128,7 @@ function initPart0(){
 		TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});	
 	});
 
-	controller.addScene([pin,scene,scene1,scene2,scene3,scene4]);
+	controller.addScene([pin,scene,scene1,scene2,scene3,scene4,scene5]);
 	wingFlap();
 	loopClouds();
 }
