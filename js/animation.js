@@ -3,7 +3,7 @@ var vert = $(window).height();
 var count = 0;
 
 $(window).load(function(){
-/* $("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created */
+$("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created
 $(".part").css("height",vert);
 });
 
