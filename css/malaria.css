@@ -354,7 +354,7 @@ h1 {
 	color: #6c6c6c;
 }
 
-#part2-world-map,#part2-world-map-cases,#part4-world-map {
+#part2-world-map,#part2-world-map-cases {
 	position:relative;
 	margin: auto auto;
 	right: 0px;
@@ -415,6 +415,8 @@ h1 {
 
 #part2-world-map-cases .jvectormap-container {
 	position: absolute!important;
+	cursor: hand;
+	
 }
 
 #part2-top-info {
@@ -610,16 +612,6 @@ h1 {
 }
 
 
-/*
-
-				<div class="methods-top">
-				<h3 class="method-title">Indoor residual spraying</h3>
-				</div>
-				<div class="methods-bottom">
-				</div>				
-*/
-
-
 		/*-----------------------*/
 		/* --- PART 4 STYLES --- */
 		/*-----------------------*/
@@ -635,6 +627,7 @@ h1 {
 	z-index: 3;
 	}
 
+/*
 #part4-toptext {
 	max-height:160px;
 	min-height: 160px;
@@ -642,7 +635,6 @@ h1 {
 	margin-top: 60px;
 	width:90%;
 	position: relative;
-/* 	background: #e5ddba; */
 	margin-bottom: 20px;
 	
 	color: white;
@@ -652,12 +644,11 @@ h1 {
 	background: rgba(218,218,218,0.52);
 	padding-bottom: 10px;
 }
+*/
 
 #part4 .textbox{
 	position:absolute;
 	background:rgba(255,255,255,0.5);
-	padding: 5px;
-	border-radius: 10px;
 	z-index: 2;	
 	color: black;
 	font-size: 12px;
@@ -665,32 +656,40 @@ h1 {
 
 #chart1 {
 	width: 70%;
-	height: 200px;
-	position:relative;
+	height: 25%;
+	min-height:150px;
+	position:absolute;
 	text-align: center;
 	margin: 0 auto;
-	background: #d6e0e6;
-	border: 2px inset rgba(175,175,175,0.4);
+/* 	background: #d6e0e6; */
+/* 	border: 2px inset rgba(175,175,175,0.4); */
+	vertical-align: bottom!important;
+	bottom:20px;
+	right: 10px;
 }
 
 #part4-world-map {
+	right:-20px;
 	position:absolute;
-	vertical-align: bottom!important;
-	bottom:0px!important;
-	margin-bottom: 0px!important;
+	margin: auto auto;
+	width: 70%;	/* 600px; */
+	height:60%;	/* 400px; */
+	vertical-align: middle!important;	
+	top:0px; bottom:50px;
 	z-index: 0;
+	overflow: hidden;	
 }
-
 
 #part4-map-legend-cases {
 	border-radius: 0px!important;
 	width: auto;
 	height: auto;
 	text-align: center;
-	right: 0px;
+	right: 50px;
 	bottom:70px;
 	background: #e7e7e7!important;
 }
+
 
 #part4-map-legend-cases .legend-colours {
 	width: 100px;
@@ -710,6 +709,101 @@ h1 {
 	padding-top: 10px;
 	padding-bottom:50px;
 	z-index: 5;
+}
+
+#part4-text1 {
+	width:25%;
+	left:10px;
+/* 	top: 90px; */
+	font-size: 20px;
+	vertical-align: bottom!important;
+	margin: auto 0;
+	right:0px;
+	top: 80px;
+	text-align: justify;
+/* 	border: 10px solid rgba(255,255,255,0.5); */
+	bottom:0px;
+	padding: 0 15px 0 15px;
+}
+
+
+
+/*
+	<div class="part" id="part5">
+		<div id="part5-top">
+*/
+
+		/*-----------------------*/
+		/* --- PART 5 STYLES --- */
+		/*-----------------------*/
+#part5{
+	background: #ffffff;
+}		
+
+#part5-top {
+	position: relative;
+	background: #000000;
+	height: 50%;
+	width: 100%;
+	z-index: 3;
+	top:0px;
+	margin-top: -25px;
+	}
+
+#part5-top h3{
+	color:white;
+	text-align: center;
+	padding-top: 15%;
+	font-size: 25px;
+}
+	
+#part4 .textbox{
+	position:absolute;
+	background:rgba(255,255,255,0.5);
+	z-index: 2;	
+	color: black;
+	font-size: 12px;
+}
+
+#timer {
+	position: absolute;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 40px;
+	color:white;
+	right: 0px; left:0px;
+	bottom: 0px;
+	margin-bottom: -62px!important;
+}
+
+#timer h3{
+	font-size: 20px;
+	line-height: 15px;
+	margin-bottom: -42px!important;	
+}
+
+#part5 h3{
+	text-align: center;
+}
+
+#part5-bottom {
+	text-align: center;
+	vertical-align: top;
+	width:80%;
+	margin: 0 auto;
+	-webkit-column-count:3; /* Chrome, Safari, Opera */
+	-moz-column-count:3; /* Firefox */
+	column-count:3;	
+	color:#6e6e6e;
+}
+
+#part5-bottom a {
+	text-decoration: none;
+	color:#6e6e6e;	
+}
+
+#part5-bottom a:hover {
+	color:red;
 }
 
 .spacer {

@@ -16,10 +16,13 @@ $(window).scroll(function() {
 });
 
 //Code used to give users option to refresh page when they resize
+/*
 $(window).resize(function() {
 	var getHor2 = $(window).width();
 	var getVert2 = $(window).height();
-	if ((count%3==0) && (getHor2!=hori || getVert2!=vert)){
+	var horizontal = getHor2-hori;
+	var vertical = getVert2-hori;
+	if ((count%3==0) && (getVert2!=vert)){
 	  r = confirm("Window was resized. Would you like to refresh the page for best viewing options?")
 	  if (r==true)
 	  	 location.reload();
@@ -30,6 +33,7 @@ $(window).resize(function() {
 	  }
 	  	window.count++;  
 });
+*/
 
 /* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
 var scroll = 0;
@@ -59,6 +63,20 @@ $(window).scroll(function() {
     
 });
 
+var start = new Date();
+	setInterval(function () {
+	   var time = (Math.round((new Date() - start) / 1000));
+	   var hours = Math.round(time/60/60);
+	   var minutes = Math.floor(time/60%60);
+	   var seconds = Math.floor(time%60%60);
+	    if (seconds<10)
+	        seconds = "0"+seconds;
+	    if (hours>0)
+	        hours = hours + ':';
+	
+	    $('#timer>h2').text( hours+minutes+':'+seconds);
+	    }, 1000);
+
 
 //Simple initialization of all parts.
 	initPart0(); //Malaria: Introduction
@@ -66,6 +84,7 @@ $(window).scroll(function() {
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
 	initPart4(); //What is being done / Future goals
+	initPart5();
 /* 	myFunction(window.scroll); */
 
 });
@@ -572,7 +591,7 @@ $('#part4-world-map').vectorMap({
   	 else if (checkValidData(code)){
   	 	plot1 = makeBarGraph(itnData2012[code],irsData2012[code],antiMal2012[code],country);
  	 }
- 	 scrollTo(0,document.body.scrollHeight,{duration:'slow'});
+/*  	 scrollTo(0,document.body.scrollHeight,{duration:'slow'}); */
   }
 });
 
@@ -611,18 +630,18 @@ function makeBarGraph(ITN, IRS, antiMal, country){
 		one = [' '];
 		var title1 = "(No Information Provided)";
 	}
-	else title1 = 'Insectide Treated Nets '+one+'%';	
+	else title1 = one+'%';	
 	if (IRS==-1){
 		two = [' '];
 		var title2 = "(No Information Provided)";
 	}
-	else title2 = 'Indoor Residual Spraying '+two+'%';
+	else title2 = two+'%';
 	
 	if (antiMal==0){
 		three = [' '];
 		var title3 = "(No Information Provided)";
 	}
-	else title3 = ' Antimalarial Coverage '+three+'%';
+	else title3 = three+'%';
 	var line = [ITN,IRS,antiMal];
 	var plot = jQuery.jqplot('chart1',[line],{
 		title: country + '\'s Estimated Intervention/Prevention Coverage',
@@ -646,11 +665,13 @@ function makeBarGraph(ITN, IRS, antiMal, country){
 		}}],
 		axesDefaults:{
 			min:0,
-			max:120
+			max:120,
 		},
         axes: {
             xaxis: {
                 renderer: $.jqplot.CategoryAxisRenderer,
+				ticks: [['Insectide Treated Nets'],['Indoor Residual Spraying'],['Antimalarial Coverage']]
+                
             },
             // Pad the y axis just a little so bars can get close to, but
             // not touch, the grid boundaries.  1.2 is the default padding.
@@ -697,6 +718,13 @@ function makePieGraph(ITN, IRS, antiMal){
   return plot1;
 }
 
+/*-----------------------*/
+/* -- PART5 ANIMATION -- */
+/*-----------------------*/
+
+function initPart5(){
+
+    }
 /*
 	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
 
