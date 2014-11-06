@@ -5,6 +5,7 @@ body, html {
 	width: 100%;
 	min-width: 980px;
 	background:black;
+	margin:0px;
 }
 
 h1,h2,h3,p {

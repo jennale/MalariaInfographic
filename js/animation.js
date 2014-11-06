@@ -1,13 +1,12 @@
-// @codekit-prepend "jquery-1.11.0.min.js"
+// @codekit-prepend "TweenMax.min.js"
 // @codekit-prepend "dataVariables.js"
 
 var hori = $(window).width();
 var vert = $(window).height();
-// var count = 0;
 
 $(window).load(function(){
-$("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created
-$(".part").css("height",vert);
+	$("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created
+	$(".part").height(vert);
 });
 
 $(document).ready(function(){
@@ -15,6 +14,8 @@ $(document).ready(function(){
 //Code used to give users option to refresh page when they resize
 
 /*
+// var count = 0;
+
 $(window).resize(function() {
 	var getHor2 = $(window).width();
 	var getVert2 = $(window).height();
@@ -32,6 +33,13 @@ $(window).resize(function() {
 	  	window.count++;  
 });
 */
+
+$(window).resize(function(){
+	hori = $(window).width();
+	vert = $(window).height();	
+	$(".part").height(vert);
+
+});
 
 /* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
 
@@ -68,26 +76,26 @@ $(window).scroll(function() {
 /*-----------------------*/
 
 function initPart0(){
-	var banner, clouds1, clouds2, line, line2, tween1, tween2, tween3, scene, scene1, scene2, scene3,scene4, controller;
+	var banner, line, line2, tween1, tween2, tween3, tween4, scene, scene1, scene2, scene3,scene4, controller,pin;
 	banner = $("#banner");		
 	line = $("#banner .mid:first");
 	line2 = line.next();	
 	$("#instructions").css("opacity","0");
 	
-	TweenMax.to($("#instructions-hint"),1,{y:"10",yoyo:true,repeat:-1});	
+	TweenMax.to($("#instructions-hint"),2,{y:"10",yoyo:true,repeat:-1});	
 			
 	//Start button
 	$('#startBtn').mousedown(function() {
 		$(this).addClass("clicked");
 	}).bind('mouseup ', function() {
-		$(this).removeClass("clicked")
-		scrollTo(0,200);
+		$(this).removeClass("clicked");
+		window.scrollTo(0,200);
 		TweenLite.to($('#startBtn'),0.5,{opacity:"0"});
 	});
 	
 	//Banner image
 	TweenLite.set(banner, {transformPerspective:500});	
-	tween1 = TweenLite.from(banner,1.5,{rotationX:90,y:-50,opacity:"0"});
+	tween1 = TweenLite.from(banner,0.5,{rotationX:85,y:0,opacity:"0"});
 	//Lines of text
 	tween2 = TweenMax.staggerFrom([line,line2],1.5,{opacity:"0", delay: 2},1.5);
 	//Mosquito drinking
@@ -98,7 +106,7 @@ function initPart0(){
 	
 	scene = new ScrollScene({duration:1}).setPin("#trigger1");
 	
-	scene.on("enter leave",function(event){
+	scene.on("enter leave",function(){
 		TweenLite.to($('#startBtn'),2,{opacity:"1"});
 	});
 
@@ -110,7 +118,7 @@ function initPart0(){
 	scene4 = new ScrollScene({offset:"210",duration: 600}).setTween(tween4);
 	
 	
-	scene1.on("end",function(event){
+	scene1.on("end",function(){
 		TweenLite.to($('#startBtn'),0.1,{opacity:"0"});
 		$("#instructions").removeAttr("style");
 		TweenLite.from($("#instructions"),2,{opacity:"0",top:vert,delay:4});
@@ -140,16 +148,16 @@ function wingFlap(){
 /*-----------------------*/
 
 function initPart1(){
-	var pin,text1,text2,tween1,tween2,scene1,scene2,scene3;
+	var pin,text1,text2,text3,tween1,tween2,tween3,scene1,scene2,scene3;
 	text1 = $("#part1-text1");
 	text2 = $("#part1-text2");
 	text3 = $("#part1-text3");
 	pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
 	pin.addIndicators();
-	pin.on("start",function(event){
+	pin.on("start",function(){
 		plasmodium();
 	});
-	pin.on("exit",function(event){
+	pin.on("exit",function(){
 		$(".germs").removeAttr("style");
 	});
 	
@@ -162,7 +170,7 @@ function initPart1(){
 	scene3 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2+500,duration:0}).setTween(tween3);
 	
 		
-	controller = new ScrollMagic();
+	var controller = new ScrollMagic();
 	controller.addScene([pin,scene1,scene2,scene3]);
 	bloodFlow1();
 	bloodFlow2();
@@ -183,7 +191,6 @@ function bloodFlow2(){
 function plasmodium(){
 	var container = $("#part1-particles");
 	var particles = container.children();
-	var particlesActions = new Array();
 	var height = container.height();
 	var width  = container.width();
 	var flowL = $("#part1-flowL");
@@ -223,7 +230,7 @@ function rand(min, max) {
 /*-----------------------*/
 
 function initPart2(){
-	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
+	var pin,map,mapCases,textbox,text1,text2,text3,emph1,emph2,tween1,tween2,tween3,tween4,mapTween1,space1,scene1,scene2,scene3,scene4;
 	makePart2Map();
 	makePart2MapCases();
 	
@@ -255,7 +262,7 @@ function initPart2(){
 	space1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(mapTween1);
 	scene4 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+700,duration:0}).setTween(tween4);
 	
-	controller = new ScrollMagic();
+	var controller = new ScrollMagic();
 	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
 	
 	space1.on("start",function(event){
@@ -341,7 +348,7 @@ $('#part2-world-map-cases').vectorMap({
     lbl.html(lbl.html()+'<br/>Cases: '+formatNumber(casesData[countryCode]));
 	}
 });
-};
+}
 
 function countUp(maxValue, countObject, duration,percentage){
 	var percent = '';
@@ -349,15 +356,16 @@ $({countNum: 0}).animate({countNum:maxValue},{
 	duration: duration,
 	easing:'linear',
 	step: function(){
-		if (percentage==1)
+		if (percentage===1){
 			percent = '%';
+		}
 		countObject.text(Math.floor(this.countNum)+percent);
 		},
 	complete: function() {
 		countObject.text(this.countNum+percent);
 		}
 	
-	})
+	});
 }
 
 
@@ -436,8 +444,8 @@ function initPart4(){
 
 	controller = new ScrollMagic();
 	controller.addScene([pin]);	
-	
 }
+
 function makePart4Map(){
 $('#part4-world-map').vectorMap({
   map: 'world_mill_en', //Dealing with the world map
