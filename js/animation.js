@@ -1,6 +1,9 @@
+// @codekit-prepend "jquery-1.11.0.min.js"
+// @codekit-prepend "dataVariables.js"
+
 var hori = $(window).width();
 var vert = $(window).height();
-var count = 0;
+// var count = 0;
 
 $(window).load(function(){
 $("#loader").fadeOut("slow"); //Add a loading image to run while all images/etc are being created
@@ -8,12 +11,6 @@ $(".part").css("height",vert);
 });
 
 $(document).ready(function(){
-
-$(window).scroll(function() { 
-	//Makes the section sizes the exact size of the user's window.
-	var getHor = $(this).scrollLeft();
-	var getVert = $(this).scrollTop();
-});
 
 //Code used to give users option to refresh page when they resize
 
@@ -37,21 +34,20 @@ $(window).resize(function() {
 */
 
 /* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
-var scroll = 0;
 
 function hint(position)
 {
-	var hint = $("#instructions-hint");
-	hint.removeAttr("style");
+	var hinter = $("#instructions-hint");
+	hinter.removeAttr("style");
 setTimeout(function(){
-	if (position == $(window).scrollTop() && 800<$(window).scrollTop()){
+	if (position === $(window).scrollTop() && 800<$(window).scrollTop()){
 		TweenLite.to($("#instructions-hint"),1,{opacity:"1",bottom:"5px"},Linear.easeNone);		
 	}
 },5000);
 }
 // Hint appear to continue scrolling
 $(window).scroll(function() {
-	if($(window).scrollTop() + $(window).height() != $(document).height()){
+	if($(window).scrollTop() + $(window).height() !== $(document).height()){
     	window.scroll=$(window).scrollTop();    	
 	    hint(window.scroll);		
 	   }
@@ -63,7 +59,7 @@ $(window).scroll(function() {
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
 	initPart4(); //What is being done / Future goals
-	initPart5();
+	initPart5(); //Final thoughts
 
 });
 
@@ -209,10 +205,7 @@ function plasmodium(){
     //Particles flow with blood after release
     TweenLite.to($(".germs"),15,{left:vert+200+"px",ease:Linear.easeNone,delay:1.8,opacity:"1"});
     //Flow/movement lines disappear
-
-    
     fixMaps();
-    
 }
 
 function fixMaps(){
