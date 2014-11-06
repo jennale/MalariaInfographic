@@ -16,6 +16,7 @@ $(window).scroll(function() {
 });
 
 //Code used to give users option to refresh page when they resize
+
 /*
 $(window).resize(function() {
 	var getHor2 = $(window).width();
@@ -48,35 +49,13 @@ setTimeout(function(){
 	}
 },5000);
 }
-
+// Hint appear to continue scrolling
 $(window).scroll(function() {
-    window.scroll=$(window).scrollTop();
-    hint(window.scroll);
-    
-/*
-	    
-    if(st>1450){
-        if(flag)
-        alert('test');flag=false;
-    }
-*/
-    
+	if($(window).scrollTop() + $(window).height() != $(document).height()){
+    	window.scroll=$(window).scrollTop();    	
+	    hint(window.scroll);		
+	   }
 });
-
-var start = new Date();
-	setInterval(function () {
-	   var time = (Math.round((new Date() - start) / 1000));
-	   var hours = Math.round(time/60/60);
-	   var minutes = Math.floor(time/60%60);
-	   var seconds = Math.floor(time%60%60);
-	    if (seconds<10)
-	        seconds = "0"+seconds;
-	    if (hours>0)
-	        hours = hours + ':';
-	
-	    $('#timer>h2').text( hours+minutes+':'+seconds);
-	    }, 1000);
-
 
 //Simple initialization of all parts.
 	initPart0(); //Malaria: Introduction
@@ -85,7 +64,6 @@ var start = new Date();
 	initPart3(); //Prevention techniques 
 	initPart4(); //What is being done / Future goals
 	initPart5();
-/* 	myFunction(window.scroll); */
 
 });
 
@@ -215,12 +193,10 @@ function plasmodium(){
 	var flowL = $("#part1-flowL");
 	var flowR = $("#part1-flowR");
 	container.removeAttr("style");
-/* 	$(".flow").css("opacity","0"); */
 	
 	$("img.germs").removeAttr("style");
 	$(".flow").removeAttr("style");	
 
-	//,"-webkit-transform",""
 	TweenLite.to($(".flow"),1,{opacity:"1"});
 	var tween=TweenLite.from(flowL,1,{ top: "-200px", left: "-50px",ease:Linear.easeNone});
 	var tween2=TweenLite.from(flowR,1,{ top: "-200px", right: "-50px",ease:Linear.easeNone});
@@ -249,8 +225,6 @@ function rand(min, max) {
 	return Math.floor(Math.random() * (1 + max - min) + min);
 }
 
-
-
 /*-----------------------*/
 /* -- PART2 ANIMATION -- */
 /*-----------------------*/
@@ -278,19 +252,9 @@ function initPart2(){
 	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[90,emph2,2000,1]});		
 	//Why in africa? (textbox)
 	tween4 = TweenLite.from(textbox,1,{opacity:"0",y:"20"});	
-/*
-	
-	countUp(emph1.text(),emph1,2000,0);
-	countUp(emph2.text(),emph2,2000,1);
-*/
-	
-
-/* 	map.fadeOut("slow"); */
-/* 	TweenMax.to(mapCases,2,{opacity:"1",delay:2.2}); */
 
 	mapTween1 = TweenLite.to(map,0.1,{opacity:"0",onComplete:hideMap,delay:2.5});
 	
-
 	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
 	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
 	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween2);
@@ -301,41 +265,18 @@ function initPart2(){
 	controller = new ScrollMagic();
 	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
 	
-/*
-	//Reset emphasized numbers so that countdown animation can restart normally
-	scene1.on("start",function(event){
-		emph1.html("&nbsp;");	
-	});
-	scene2.on("start",function(event){
-		emph2.html("&nbsp;");
-	});
-*/
 	space1.on("start",function(event){
 		map.removeAttr("style");
 		mapCases.removeAttr("style");			
 	});
-		
-/* 	$('#part2-world-map').vectorMap('get','mapObject').remove(); */
-/* 	$('#part2-world-map').fadeOut(2000); */
-/* 	TweenMax.to($('#part2-world-map-cases'),2,{opacity:"1",delay:2.2}); */
-
+	
 	fixMaps();
 
 	function hideMap(){
 		map.css("display","none");
 		mapCases.css("opacity","1");
-		
-/* 		TweenLite.to(mapCases,1,{opacity:"1"}); */
-/* 		$("#part2-world-map-cases").append("<p>Data retrieved from the WHO 2013 World Malaria Report</p>"); */
 	}
 }
-
-/*
-	pin.on("start",function(event){
-		plasmodium();
-	});
-*/
-
 
 var plot1=null;
 
@@ -440,7 +381,6 @@ function initPart3(){
 	textbox3 = $("#part3-antiMed"); //antimalarial medicine textbox
 	textbox4 = $("#part3-other"); //other textbox
 	
-	
 	bigNet = $("#net");
 	
 	miniNet = $("#part3-mininet");
@@ -449,9 +389,6 @@ function initPart3(){
 	sprayCan = $("#part3-spraycan");
 	sprayCloud = $("#part3-spraycloud");
 	
-
-/* 	$("#net").hide(); */
-
 	//Turning into night
 	nightTween1 = TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone,delay:2}));
 	nightTween2 = TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone,delay:2}));
@@ -493,46 +430,6 @@ function initPart3(){
 	controller.addScene([pin,scene1,scene2,scene2b,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10]);	
 		
 }
-
-
-
-/*
-	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
-	makePart2Map();
-	makePart2MapCases();
-	
-	map = $('#part2-world-map');
-	mapCases = $('#part2-world-map-cases');
-	emph1 = $("#part2-emph1 span");
-	emph2 = $("#part2-emph2 span");
-	
-	text1 = $("#part2-emph1");
-	text2 = $("#part2-top-info p");
-	text3 = $("#part2-emph2");	
-	textbox = $("#part2-text2");
-	
-	//"Malaria is endemic to 97 countries worldwide
-	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[97,emph1,2000,0]});
-	//"Generally in tropical and subtropic regions of the world"
-	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20",delay:2});	
-	//"But 90% of deaths occur in sub-saharan africa"
-	tween3 = TweenLite.from(text3,1,{opacity:"0",y:"20",onStart:countUp,onStartParams:[90,emph2,2000,1]});		
-	//Why in africa? (textbox)
-	tween4 = TweenLite.from(textbox,1,{opacity:"0",y:"20"});	
-
-	mapTween1 = TweenLite.to(map,0.1,{opacity:"0",onComplete:hideMap,delay:2.5});
-	
-	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
-	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
-	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween2);
-	scene3 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(tween3);
-	space1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(mapTween1);
-	scene4 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+700,duration:0}).setTween(tween4);
-	
-	controller = new ScrollMagic();
-	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
-*/
-
 	
 	
 /*-----------------------*/
@@ -724,39 +621,18 @@ function makePieGraph(ITN, IRS, antiMal){
 
 function initPart5(){
 
+// Counter begins for final section
+var start = new Date();
+	setInterval(function () {
+	   var time = (Math.round((new Date() - start) / 1000));
+	   var hours = Math.round(time/60/60);
+	   var minutes = Math.floor(time/60%60);
+	   var seconds = Math.floor(time%60%60);
+	    if (seconds<10)
+	        seconds = "0"+seconds;
+	    if (hours>0)
+	        hours = hours + ':';
+	
+	    $('#timer>h2').text( hours+minutes+':'+seconds);
+	    }, 1000);
     }
-/*
-	tween3 = TweenLite.to($("#part0-mosn"),6,{clip:"rect(0px, 230px, 200px, 230px);",ease:Linear.easeNone,delay:10});	
-
-	var width:Number = 400;
-var height:Number = 300;
-
-function tweenFish():void {
-    TweenLite.to(fish, 2, {x:randomNumber(0, width), y:randomNumber(0, height), onComplete:tweenFish});
-}
-tweenFish();
-
-
-function randomNumber(min:Number, max:Number):Number {
-    return Math.floor(Math.random() * (1 + max - min) + min);
-}
-*/
-
-/*
-// init controller
-var controller = new ScrollMagic();
-
-// assign handler "scene" and add it to Controller
-var scene = new ScrollScene({duration: 100})
-                .addTo(controller);
-
-// add multiple scenes at once
-var scene2;
-controller.addScene([
-    scene, // add above defined scene
-    scene2 = new ScrollScene({duration: 200}), // add scene and assign handler "scene2"
-    new ScrollScene({offset: 20}) // add anonymous scene
-]);
-Check out the examples or the documentation for full reference.
-
-*/

@@ -125,15 +125,12 @@ h1 {
 	margin: 0 auto;
 	z-index: 1;
 	top: 10%;
-	rotationY:0deg;
 	opacity:1;
     transform-style: preserve-3d;
 	transition: transform 1s;
 }
 
-#banner.rotate {
-  transform: perspective( 600px ) rotateY( 45deg );
-  }
+
 
 .mosq {
 	position:absolute;
