@@ -1,4 +1,3 @@
-// @codekit-prepend "TweenMax.min.js"
 // @codekit-prepend "dataVariables.js"
 
 var hori = $(window).width();
@@ -33,13 +32,8 @@ $(window).resize(function() {
 	  	window.count++;  
 });
 */
-
-$(window).resize(function(){
-	hori = $(window).width();
-	vert = $(window).height();	
-	$(".part").height(vert);
-
-});
+	// var mainController = new ScrollMagic();
+	// setPins();
 
 /* Code used to have a 'hint' appear that tells the user to continue scrolling to access the rest of the document */
 
@@ -62,12 +56,48 @@ $(window).scroll(function() {
 });
 
 //Simple initialization of all parts.
+	var mainController = new ScrollMagic();
+	setPins();
+
 	initPart0(); //Malaria: Introduction
 	initPart1(); //What is Malaria?
 	initPart2(); //Malaria: Global Statistics and other Info
 	initPart3(); //Prevention techniques 
 	initPart4(); //What is being done / Future goals
 	initPart5(); //Final thoughts
+
+
+function setPins(){
+
+	pin0 = new ScrollScene({duration: 800}).setPin("#part0");
+	mainController.addScene(pin0);
+
+	pin1 = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
+	pin1.addIndicators();
+	pin1.on("start",function(){
+		plasmodium();
+	});
+	pin1.on("exit",function(){
+		$(".germs").removeAttr("style");
+	});
+	mainController.addScene(pin1);
+
+	pin2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
+	mainController.addScene(pin2);
+
+	pin3 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 3000}).setPin("#part3");
+	mainController.addScene(pin3);
+	
+	pin4 = new ScrollScene({triggerElement:"#trigger4",offset:vert/2,duration: 500}).setPin("#part4");
+	mainController.addScene(pin4);
+
+}
+function resetPins(){
+	for (i = 0; i < control.length; i++){
+		control[0].removeScene('pin');
+	}
+	setPins();
+}
 
 });
 
@@ -110,7 +140,7 @@ function initPart0(){
 		TweenLite.to($('#startBtn'),2,{opacity:"1"});
 	});
 
-	pin = new ScrollScene({duration: 800}).setPin("#part0");
+	// pin = new ScrollScene({duration: 800}).setPin("#part0");
 	
 	scene1 = new ScrollScene({offset:"200",duration: 0}).setTween(tween1);
 	scene2 = new ScrollScene({offset:"200",duration: 0}).setTween(tween2);
@@ -125,9 +155,11 @@ function initPart0(){
 		TweenMax.to($("#instructions"),1,{y:"10",yoyo:true,repeat:-1});	
 	});
 
-	controller.addScene([pin,scene,scene1,scene2,scene3,scene4]);
+	controller.addScene([scene,scene1,scene2,scene3,scene4]);
 	wingFlap();
 	loopClouds();
+
+	return scene;
 }
 	
 function loopClouds(){
@@ -152,14 +184,14 @@ function initPart1(){
 	text1 = $("#part1-text1");
 	text2 = $("#part1-text2");
 	text3 = $("#part1-text3");
-	pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
+	/*pin = new ScrollScene({triggerElement:"#trigger1",offset:vert/2,duration: 1000}).setPin("#part1");
 	pin.addIndicators();
 	pin.on("start",function(){
 		plasmodium();
 	});
 	pin.on("exit",function(){
 		$(".germs").removeAttr("style");
-	});
+	});*/
 	
 	tween1 = TweenLite.from(text1,1,{opacity:"0",y:"20"});
 	tween2 = TweenLite.from(text2,1,{opacity:"0",y:"20"});	
@@ -171,9 +203,11 @@ function initPart1(){
 	
 		
 	var controller = new ScrollMagic();
-	controller.addScene([pin,scene1,scene2,scene3]);
+	controller.addScene([scene1,scene2,scene3]);
 	bloodFlow1();
 	bloodFlow2();
+
+	return controller;
 }
 
 function bloodFlow1(){
@@ -255,7 +289,7 @@ function initPart2(){
 
 	mapTween1 = TweenLite.to(map,0.1,{opacity:"0",onComplete:hideMap,delay:2.5});
 	
-	pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
+	// pin = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration: 1700}).setPin("#part2");
 	scene1 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween1);
 	scene2 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2,duration:0}).setTween(tween2);
 	scene3 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+500,duration:0}).setTween(tween3);
@@ -263,7 +297,7 @@ function initPart2(){
 	scene4 = new ScrollScene({triggerElement:"#trigger2",offset:vert/2+700,duration:0}).setTween(tween4);
 	
 	var controller = new ScrollMagic();
-	controller.addScene([pin,scene1,scene2,scene3,space1,scene4]);
+	controller.addScene([scene1,scene2,scene3,space1,scene4]);
 	
 	space1.on("start",function(event){
 		map.removeAttr("style");
@@ -391,9 +425,9 @@ function initPart3(){
 	sprayCloud = $("#part3-spraycloud");
 	
 	//Turning into night
-	nightTween1 = TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone,delay:2}));
-	nightTween2 = TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone,delay:2}));
-	nightTween3 = TweenLite.from($("#net"),2,({css:{"backgroundColor": "rgba(112,112,112,0.46)"},ease:Linear.easeNone,delay:2}));
+	nightTween1 = TweenLite.to($("#part3-top"),2,({css:{"backgroundColor": "#32394f"},ease:Linear.easeNone,delay:0}));
+	nightTween2 = TweenLite.to($("#part3"),2,({css:{"backgroundColor": "#232439"},ease:Linear.easeNone,delay:0}));
+	nightTween3 = TweenLite.from($("#net"),2,({css:{"backgroundColor": "rgba(112,112,112,0.46)"},ease:Linear.easeNone,delay:0}));
 	//Moving net up
 	netTween1 = TweenLite.to($("#net"),5,({"background-position-y":"-1300px",ease:Linear.easeNone}));
 	netTween2 = TweenLite.to($("#net"),2,({opacity:"0"}));
@@ -409,10 +443,10 @@ function initPart3(){
 	tweenSprayCan = TweenLite.from(sprayCan,2,{y:20});
 	tweenSprayCloud = TweenMax.from(sprayCloud,0.5,{scaleY:0.1,scaleX:0.1,x:-25,y:-70,opacity:"0",ease:Linear.easeNone,delay:1,repeat:3});
 		
-	pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 3000}).setPin("#part3");
-	scene1 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween1);
-	scene2 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween2);
-	scene2b = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:0}).setTween(nightTween3);
+	// pin = new ScrollScene({triggerElement:"#trigger3",offset:vert/2,duration: 3000}).setPin("#part3");
+	scene1 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:200}).setTween(nightTween1);
+	scene2 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:200}).setTween(nightTween2);
+	scene2b = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+150,duration:200}).setTween(nightTween3);
 	
 	scene3 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+500,duration:800}).setTween(netTween1);
 	scene4 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+1000,duration:300}).setTween(netTween2);
@@ -425,10 +459,10 @@ function initPart3(){
 	scene9 = new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2200,duration:100}).setTween(tweenSprayCloud);
 	scene10 =new ScrollScene({triggerElement:"#trigger3",offset:vert/2+2400,duration:0}).setTween(tween3); 	
 	
-	pin.addIndicators();
+	// pin.addIndicators();
 	
 	controller = new ScrollMagic();
-	controller.addScene([pin,scene1,scene2,scene2b,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10]);	
+	controller.addScene([scene1,scene2,scene2b,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10]);	
 		
 }
 	
@@ -440,10 +474,10 @@ function initPart4(){
 	makePart4Map();	
 	
 	var pin,map,mapCases,textbox,text1,text2,text3,textbox,emph1,emph2,tween1,tween2,mapTween1, mapTween2,scene1,scene2,scene3,scene4;
-	pin = new ScrollScene({triggerElement:"#trigger4",offset:vert/2,duration: 500}).setPin("#part4");
+	// pin = new ScrollScene({triggerElement:"#trigger4",offset:vert/2,duration: 500}).setPin("#part4");
 
 	controller = new ScrollMagic();
-	controller.addScene([pin]);	
+	// controller.addScene([pin]);	
 }
 
 function makePart4Map(){
@@ -596,7 +630,7 @@ function makePieGraph(ITN, IRS, antiMal){
 	
 	var data = [['Population potentially protected by ITNs', one],['Unprotected', two]];
 	var data2 = [['% IRS Coverage', three],['Unprotected',four]];
-	var data3 = [['AntiMalarial coverage',five],['Unprotected',six]]
+	var data3 = [['AntiMalarial coverage',five],['Unprotected',six]];
 	var plot1 = $.jqplot ('chart1', [data,data2,data3], 
     { 
       seriesDefaults: {
@@ -629,10 +663,12 @@ var start = new Date();
 	   var hours = Math.round(time/60/60);
 	   var minutes = Math.floor(time/60%60);
 	   var seconds = Math.floor(time%60%60);
-	    if (seconds<10)
+	    if (seconds<10){
 	        seconds = "0"+seconds;
-	    if (hours>0)
+	    }
+	    if (hours>0){
 	        hours = hours + ':';
+	    }
 	
 	    $('#timer>h2').text( hours+minutes+':'+seconds);
 	    }, 1000);
